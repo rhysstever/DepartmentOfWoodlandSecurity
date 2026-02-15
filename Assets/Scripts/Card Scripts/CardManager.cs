@@ -276,14 +276,14 @@ public class CardManager : MonoBehaviour
 
     private void AttackEveryEnemy(int damage)
     {
-        EnemyManager.instance.GetCurrentEnemiesInScene().ForEach(enemy => {
+        EnemyManager.instance.GetCurrentEnemies().ForEach(enemy => {
             AttackSingleEnemy(damage, enemy);
         });
     }
 
     private void AttackRandomEnemy(int damage)
     {
-        List<Enemy> currentEnemies = EnemyManager.instance.GetCurrentEnemiesInScene();
+        List<Enemy> currentEnemies = EnemyManager.instance.GetCurrentEnemies();
         int randomEnemyIndex = UnityEngine.Random.Range(0, currentEnemies.Count);
         AttackSingleEnemy(damage, currentEnemies[randomEnemyIndex]);
     }

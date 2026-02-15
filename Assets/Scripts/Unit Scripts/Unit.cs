@@ -210,7 +210,7 @@ public class Unit : MonoBehaviour
 
         DeckManager.instance.DealHand();
         yield return effectTriggerToDamageDelayWait;
-        EnemyManager.instance.GetCurrentEnemiesInScene().ForEach(e => e.UpdateNextActionUI());
+        EnemyManager.instance.GetCurrentEnemies().ForEach(e => e.UpdateNextActionUI());
     }
 
     protected void UpdateLifeUIText()

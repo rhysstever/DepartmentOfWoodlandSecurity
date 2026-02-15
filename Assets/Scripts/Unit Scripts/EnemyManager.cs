@@ -80,7 +80,7 @@ public class EnemyManager : MonoBehaviour
 
     public void StartEnemyCombatTurn()
     {
-        enemyActionsCoroutine = PerformEnemyRoundActions(GetCurrentEnemiesInScene());
+        enemyActionsCoroutine = PerformEnemyRoundActions(GetCurrentEnemies());
         StartCoroutine(enemyActionsCoroutine);
     }
 
@@ -178,7 +178,7 @@ public class EnemyManager : MonoBehaviour
     public void SpawnSummon(GameObject enemy)
     {
         // Get leftmost available position
-        int[] currentPositions = GetCurrentEnemiesInScene().Select(e => e.PositionIndex).ToArray();
+        int[] currentPositions = GetCurrentEnemies().Select(e => e.PositionIndex).ToArray();
         int positionIndex = -1;
         for(int i = 0; i < enemySpawnPositions.Count; i++)
         {
@@ -204,7 +204,7 @@ public class EnemyManager : MonoBehaviour
     {
         Vector2 position = enemySpawnPositions[positionIndex].position;
         GameObject newSceneEnemy = Instantiate(enemy, position, Quaternion.identity, enemies);
-        newSceneEnemy.name = enemy.name + GetCurrentEnemiesInScene().Count;
+        newSceneEnemy.name = enemy.name + GetCurrentEnemies().Count;
 
         newSceneEnemy.GetComponent<Enemy>().SetPositionIndex(positionIndex);
     }
@@ -214,7 +214,7 @@ public class EnemyManager : MonoBehaviour
         return currentWaveNum == enemyWaves.Count - 1;
     }
 
-    public List<Enemy> GetCurrentEnemiesInScene()
+    public List<Enemy> GetCurrentEnemies()
     {
         return enemies.GetComponentsInChildren<Enemy>().ToList();
     }
@@ -223,7 +223,7 @@ public class EnemyManager : MonoBehaviour
     {
         WaitForSeconds enemyEffectsDelayWait = new WaitForSeconds(1);
         int enemyIndex = 0;
-        List<Enemy> enemies = GetCurrentEnemiesInScene();
+        List<Enemy> enemies = GetCurrentEnemies();
 
         while(enemyIndex < enemies.Count)
         {
