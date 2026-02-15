@@ -79,6 +79,25 @@ public class AudioManager : MonoBehaviour
         CreateAudioObject(attackAudioPrefabs[randIndex]);
     }
 
+    public void PlaySlotAttackAudio(Slot slot)
+    {
+        switch(slot)
+        {
+            case Slot.MainHand:
+                PlayAttackAudio();
+                break;
+            case Slot.Spell:
+                PlaySpellAttackAudio();
+                break;
+            case Slot.Ally:
+                PlaySquirrelAudio();
+                break;
+            default:
+                PlayAttackAudio();
+                break;
+        }
+    }
+
     public void PlayGiveDefenseAudio()
     {
         CreateAudioObject(giveDefenseAudioPrefab);

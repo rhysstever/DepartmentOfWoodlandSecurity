@@ -60,17 +60,12 @@ public class Unit : MonoBehaviour
                 // subtract the difference from the unit's health
                 currentLife -= (amount - currentDefense);
                 currentDefense = 0;
-                if(currentLife > 0)
-                {
-                    AudioManager.instance.PlayDamageTakenAudio();
-                }
             }
             else
             {
                 // If the damage dealth is less than the unit's defense,
                 // subtract it from the current defense
                 currentDefense -= amount;
-                AudioManager.instance.PlayDamageBlockedAudio();
             }
 
             // Update defense UI text
@@ -79,10 +74,6 @@ public class Unit : MonoBehaviour
         else
         {
             currentLife -= amount;
-            if(currentLife > 0)
-            {
-                AudioManager.instance.PlayDamageTakenAudio();
-            }
         }
 
         // If the damage type is an attack or spell, there is an attacker, and the unit has spikes,
@@ -128,6 +119,7 @@ public class Unit : MonoBehaviour
             return;
         }
 
+        AudioManager.instance.PlayGiveDefenseAudio();
         currentDefense += amount;
         UpdateDefenseUIText();
     }

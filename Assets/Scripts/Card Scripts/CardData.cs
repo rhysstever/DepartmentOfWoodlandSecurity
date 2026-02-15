@@ -42,9 +42,9 @@ public class CardData
         this.description = description;
     }
 
-    public CardData(string name, Slot slot, Rarity rarity, TargetType targetType, OnAudioDelegate initialPlayAudio)
-        : this(name, slot, rarity, targetType, initialPlayAudio, "")
+    public CardData(string name, Slot slot, Rarity rarity, TargetType targetType)
+        : this(name, slot, rarity, targetType, null, "")
     {
-        this.description = "";
+        
     }
 }

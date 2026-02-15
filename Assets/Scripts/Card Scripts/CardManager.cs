@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using static AudioManager;
+using static UnityEngine.GraphicsBuffer;
 
 public enum Slot
 {
@@ -37,7 +40,7 @@ public class CardManager : MonoBehaviour
     private Dictionary<Rarity, float> rarityPercentages;
     private List<Sprite> cardArtList;
 
-    private IEnumerator cardPlayCoroutine;
+    private IEnumerator cardPlayCoroutine, cardAttackCoroutine;
 
     // Slots
     private CardData mainHand, offHand, spirit, ally, spell, drink;
@@ -86,25 +89,25 @@ public class CardManager : MonoBehaviour
             // Cleanse Debuffs: "Cleanse"
 
             // Main hand cards
-            new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, onAttackAudioDelegate, "Attack for 2"),
+            new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, null, "Attack for 2, randomly, 3 times"),
             //new CardData("Wand", Slot.MainHand, Rarity.Common, TargetType.None, "Some magic... nothing yet"),
             //new CardData("Staff", Slot.MainHand, Rarity.Common, TargetType.None, "Some magic... nothing yet"),
-            new CardData("Mace", Slot.MainHand, Rarity.Common, TargetType.AOE, onAttackAudioDelegate, "Attack for 3, to all"),
-            new CardData("Flail", Slot.MainHand, Rarity.Rare, TargetType.None, onAttackAudioDelegate, "Attack for 2, randomly, 3 times"),
-            new CardData("Flaming Arrow", Slot.MainHand, Rarity.Common, TargetType.Unit, onAttackAudioDelegate, "Attack for 2. Burn for 2"),
-            new CardData("Spear", Slot.MainHand, Rarity.Rare, TargetType.Unit, onAttackAudioDelegate, "Attack for 6"),
-            new CardData("Trident", Slot.MainHand, Rarity.Rare, TargetType.Unit, onAttackAudioDelegate, "Attack for 4. Heal for 4"),
-            new CardData("Scythe", Slot.MainHand, Rarity.Rare, TargetType.Unit, onAttackAudioDelegate, "Attack for 3. Poison for 3"),
+            new CardData("Mace", Slot.MainHand, Rarity.Common, TargetType.AOE, null, "Attack for 3, to all"),
+            new CardData("Flail", Slot.MainHand, Rarity.Rare, TargetType.None, null, "Attack for 2, randomly, 3 times"),
+            new CardData("Flaming Arrow", Slot.MainHand, Rarity.Common, TargetType.Unit, null, "Attack for 2. Burn for 2"),
+            new CardData("Spear", Slot.MainHand, Rarity.Rare, TargetType.Unit, null, "Attack for 6"),
+            new CardData("Trident", Slot.MainHand, Rarity.Rare, TargetType.Unit, null, "Attack for 4. Heal for 4"),
+            new CardData("Scythe", Slot.MainHand, Rarity.Rare, TargetType.Unit, null, "Attack for 3. Poison for 3"),
 
             // Off hand cards
-            new CardData("Wooden Shield", Slot.OffHand, Rarity.Starter, TargetType.Self, onDefendAudioDelegate, "Defend for 1"),
-            new CardData("Buckler", Slot.OffHand, Rarity.Common, TargetType.Self, onDefendAudioDelegate, "Defend for 2"),
-            new CardData("Dagger", Slot.OffHand, Rarity.Common, TargetType.Unit, onDefendAudioDelegate, "Attack for 1"),
-            new CardData("Quiver", Slot.OffHand, Rarity.Common, TargetType.Unit, onDefendAudioDelegate, "Attack for 1, randomly"),
+            new CardData("Wooden Shield", Slot.OffHand, Rarity.Starter, TargetType.Self, null, "Defend for 1"),
+            new CardData("Buckler", Slot.OffHand, Rarity.Common, TargetType.Self, null, "Defend for 2"),
+            new CardData("Dagger", Slot.OffHand, Rarity.Common, TargetType.Unit, null, "Attack for 1"),
+            new CardData("Quiver", Slot.OffHand, Rarity.Common, TargetType.Unit, null, "Attack for 1, randomly"),
             //new CardData("Scroll", Slot.OffHand, Rarity.Common, TargetType.Self, "Some magic... nothing yet"),
-            new CardData("Spike Shield", Slot.OffHand, Rarity.Common, TargetType.Self, onDefendAudioDelegate, "Defend for 3. Spike for 2"),
+            new CardData("Spike Shield", Slot.OffHand, Rarity.Common, TargetType.Self, null, "Defend for 3. Spike for 2"),
             //new CardData("Tome", Slot.OffHand, Rarity.Common, TargetType.Self, "Some magic... nothing yet"),
-            new CardData("Tower Shield", Slot.OffHand, Rarity.Rare, TargetType.Self, onDefendAudioDelegate, "Defend for 5"),
+            new CardData("Tower Shield", Slot.OffHand, Rarity.Rare, TargetType.Self, null, "Defend for 5"),
             //new CardData("Arcane Focus", Slot.OffHand, Rarity.Rare, TargetType.Self, "Some magic... nothing yet"),
 
             // Ally cards
@@ -118,30 +121,30 @@ public class CardManager : MonoBehaviour
             new CardData("Hamster", Slot.Ally, Rarity.Rare, TargetType.Unit, onHamsterAudioDelegate, "Heal for 3"),   // TODO: change to "Draw 1 card" when drawing is implemented
 
             // Spirit cards
-            new CardData("Earth Spirit", Slot.Spirit, Rarity.Starter, TargetType.Self, onDefendAudioDelegate, "Defend for 2"),
-            new CardData("Air Spirit", Slot.Spirit, Rarity.Common, TargetType.None, onAttackAudioDelegate, "Attack for 1, randomly, 2 times"),
-            new CardData("Fire Spirit", Slot.Spirit, Rarity.Common, TargetType.Unit, onBurnAudioDelegate, "Burn for 2"),
-            new CardData("Water Spirit", Slot.Spirit, Rarity.Common, TargetType.Self, onHealAudioDelegate, "Heal for 2"),
-            new CardData("Light Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, onHealAudioDelegate, "Heal for 4"),
-            new CardData("Dark Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, onPoisonAudioDelegate, "Poison for 4"),
+            new CardData("Earth Spirit", Slot.Spirit, Rarity.Starter, TargetType.Self, null, "Defend for 2"),
+            new CardData("Air Spirit", Slot.Spirit, Rarity.Common, TargetType.None, null, "Attack for 1, randomly, 2 times"),
+            new CardData("Fire Spirit", Slot.Spirit, Rarity.Common, TargetType.Unit, null, "Burn for 2"),
+            new CardData("Water Spirit", Slot.Spirit, Rarity.Common, TargetType.Self, null, "Heal for 2"),
+            new CardData("Light Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, null, "Heal for 4"),
+            new CardData("Dark Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, null, "Poison for 4"),
 
             // Spell cards
-            new CardData("Arcane Bolt", Slot.Spell, Rarity.Starter, TargetType.None, onSpellAttackAudioDelegate, "Attack for 1, randomly"),
-            new CardData("Fireball", Slot.Spell, Rarity.Common, TargetType.Unit, onSpellAttackAudioDelegate, "Burn for 3"),
-            new CardData("Life Drain", Slot.Spell, Rarity.Common, TargetType.Unit, onSpellAttackAudioDelegate, "Attack for 2. Heal for 2"),
-            new CardData("Lightning Strike", Slot.Spell, Rarity.Rare, TargetType.None, onSpellAttackAudioDelegate, "Attack for 4, randomly"),
-            new CardData("Heal", Slot.Spell, Rarity.Rare, TargetType.Self, onSpellAttackAudioDelegate, "Heal for 5"),
-            new CardData("Blizzard", Slot.Spell, Rarity.Rare, TargetType.AOE, onSpellAttackAudioDelegate, "Attack for 3, to all"),
-            new CardData("Curse", Slot.Spell, Rarity.Rare, TargetType.Unit, onSpellAttackAudioDelegate, "Poison for 5"),
+            new CardData("Arcane Bolt", Slot.Spell, Rarity.Starter, TargetType.None, null, "Attack for 1, randomly"),
+            new CardData("Fireball", Slot.Spell, Rarity.Common, TargetType.Unit, null, "Burn for 3"),
+            new CardData("Life Drain", Slot.Spell, Rarity.Common, TargetType.Unit, null, "Attack for 2. Heal for 2"),
+            new CardData("Lightning Strike", Slot.Spell, Rarity.Rare, TargetType.None, null, "Attack for 4, randomly"),
+            new CardData("Heal", Slot.Spell, Rarity.Rare, TargetType.Self, null, "Heal for 5"),
+            new CardData("Blizzard", Slot.Spell, Rarity.Rare, TargetType.AOE, null, "Attack for 3, to all"),
+            new CardData("Curse", Slot.Spell, Rarity.Rare, TargetType.Unit, null, "Poison for 5"),
 
             // Drink cards
-            new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, onDrinkAudioDelegate, "Heal for 1"),
-            new CardData("Pouch", Slot.Drink, Rarity.Common, TargetType.Self, onDrinkAudioDelegate, "Heal for 1"), // TODO: change to "Draw 1 card" when drawing is implemented
-            new CardData("Tankard", Slot.Drink, Rarity.Common, TargetType.None, onDrinkAudioDelegate, "Heal for 1. Attack for 1, randomly"),
-            new CardData("Goblet", Slot.Drink, Rarity.Common, TargetType.Self, onDrinkAudioDelegate, "Heal for 2"),
-            new CardData("Potion", Slot.Drink, Rarity.Rare, TargetType.Self, onDrinkAudioDelegate, "Heal for 4"),
-            new CardData("Flagon", Slot.Drink, Rarity.Rare, TargetType.Unit, onDrinkAudioDelegate, "Heal for 1. Poison for 2"),
-            new CardData("Chalice", Slot.Drink, Rarity.Rare, TargetType.Self, onDrinkAudioDelegate, "Heal for 1. Cleanse")
+            new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, null, "Heal for 1"),
+            new CardData("Pouch", Slot.Drink, Rarity.Common, TargetType.Self, null, "Heal for 1"), // TODO: change to "Draw 1 card" when drawing is implemented
+            new CardData("Tankard", Slot.Drink, Rarity.Common, TargetType.None, null, "Heal for 1. Attack for 1, randomly"),
+            new CardData("Goblet", Slot.Drink, Rarity.Common, TargetType.Self, null, "Heal for 2"),
+            new CardData("Potion", Slot.Drink, Rarity.Rare, TargetType.Self, null, "Heal for 4"),
+            new CardData("Flagon", Slot.Drink, Rarity.Rare, TargetType.Unit, null, "Heal for 1. Poison for 2"),
+            new CardData("Chalice", Slot.Drink, Rarity.Rare, TargetType.Self, null, "Heal for 1. Cleanse")
         };
 
         return cards;
@@ -183,56 +186,7 @@ public class CardManager : MonoBehaviour
         switch(firstWord)
         {
             case "Attack":
-                string[] attackParts = action.Split(", ");
-
-                // Figure out if the attack is AOE, random, and/or multi
-                bool isAOE = false;
-                bool isRandom = false;
-                int isMulti = 1;
-                for(int i = 1; i < attackParts.Length; i++)
-                {
-                    if(attackParts[i].Contains("to all"))
-                    {
-                        isAOE = true;
-                    }
-                    else if(attackParts[i].Contains("randomly"))
-                    {
-                        isRandom = true;
-                    }
-                    else if(attackParts[i].Contains("times"))
-                    {
-                        isMulti = int.Parse(attackParts[i].Split(" ")[0]);
-                    }
-                }
-
-                // Attack based on the parsed info
-                for(int i = 0; i < isMulti; i++)
-                {
-                    amount = int.Parse(attackParts[0].Split(" ")[2]);
-
-                    DamageType attackType;
-                    if(slot == Slot.Spell)
-                    {
-                        attackType = DamageType.Spell;
-                    }
-                    else
-                    {
-                        attackType = DamageType.Attack;
-                    }
-
-                    if(isAOE)
-                    {
-                        AttackEveryEnemy(amount, attackType);
-                    }
-                    else if(isRandom)
-                    {
-                        AttackRandomEnemy(amount, attackType);
-                    }
-                    else
-                    {
-                        AttackUnit(amount, target, attackType);
-                    }
-                }
+                ParseAttack(action, target, slot);
                 break;
             case "Defend":
                 amount = int.Parse(action.Split(" ")[2]);
@@ -266,21 +220,76 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    private void AttackEveryEnemy(int damage, DamageType attackType)
+    private void ParseAttack(string action, Enemy target, Slot slot)
+    {
+        string[] attackParts = action.Split(", ");
+
+        // Figure out if the attack is AOE, random, and/or multi
+        bool isAttackAOE = false;
+        bool isAttackRandom = false;
+        int attackCount = 1;
+        for(int i = 1; i < attackParts.Length; i++)
+        {
+            if(attackParts[i].Contains("to all"))
+            {
+                isAttackAOE = true;
+            }
+            else if(attackParts[i].Contains("randomly"))
+            {
+                isAttackRandom = true;
+            }
+            else if(attackParts[i].Contains("times"))
+            {
+                attackCount = int.Parse(attackParts[i].Split(" ")[0]);
+            }
+        }
+
+        int amount = int.Parse(attackParts[0].Split(" ")[2]);
+
+        cardAttackCoroutine = ProcessCardAttack(amount, target, slot, attackCount, isAttackAOE, isAttackRandom);
+        StartCoroutine(cardAttackCoroutine);
+    }
+
+    private IEnumerator ProcessCardAttack(int amount, Enemy target, Slot slot, int attackCount, bool isAOE, bool isRandom)
+    {
+        WaitForSeconds attackDelayWait = new WaitForSeconds(0.75f);
+        int attackIndex = 0;
+        // Apply a small delay before performing each attack
+        while(attackIndex < attackCount)
+        {
+            yield return attackDelayWait;
+            AudioManager.instance.PlaySlotAttackAudio(slot);
+            if(isAOE)
+            {
+                AttackEveryEnemy(amount);
+            }
+            else if(isRandom)
+            {
+                AttackRandomEnemy(amount);
+            }
+            else
+            {
+                AttackSingleEnemy(amount, target);
+            }
+            attackIndex++;
+        }
+    }
+
+    private void AttackEveryEnemy(int damage)
     {
         EnemyManager.instance.GetCurrentEnemiesInScene().ForEach(enemy => {
-            AttackUnit(damage, enemy, attackType);
+            AttackSingleEnemy(damage, enemy);
         });
     }
 
-    private void AttackRandomEnemy(int damage, DamageType attackType)
+    private void AttackRandomEnemy(int damage)
     {
         List<Enemy> currentEnemies = EnemyManager.instance.GetCurrentEnemiesInScene();
         int randomEnemyIndex = UnityEngine.Random.Range(0, currentEnemies.Count);
-        AttackUnit(damage, currentEnemies[randomEnemyIndex], attackType);
+        AttackSingleEnemy(damage, currentEnemies[randomEnemyIndex]);
     }
 
-    private void AttackUnit(int amount, Enemy enemy, DamageType attackType)
+    private void AttackSingleEnemy(int amount, Enemy enemy)
     {
         if(enemy == null)
         {
@@ -293,15 +302,6 @@ public class CardManager : MonoBehaviour
             Debug.Log(string.Format("Error: Not enough damage ({0})", amount));
             return;
         }
-
-        //if(attackType == DamageType.Attack)
-        //{
-        //    AudioManager.instance.PlayAttackAudio();
-        //}
-        //else if(attackType == DamageType.Spell)
-        //{
-        //    AudioManager.instance.PlaySpellAttackAudio();
-        //}
 
         enemy.TakeDamage(amount, GameManager.instance.Player, DamageType.Attack);
     }
