@@ -22,28 +22,25 @@ public class CardData
     protected Slot slot;
     protected Rarity rarity;
     protected TargetType targetType;
-    protected OnAudioDelegate initialPlayAudio;
     protected string description;
 
     public string Name { get { return name; } }
     public Slot Slot { get { return slot; } }
     public Rarity Rarity { get { return rarity; } }
     public TargetType TargetType { get { return targetType; } }
-    public OnAudioDelegate InitialPlayAudio { get { return initialPlayAudio; } }
     public string Description { get { return description; } }
 
-    public CardData(string name, Slot slot, Rarity rarity, TargetType targetType, OnAudioDelegate initialPlayAudio, string description)
+    public CardData(string name, Slot slot, Rarity rarity, TargetType targetType, string description)
     {
         this.name = name;
         this.slot = slot;
         this.rarity = rarity;
         this.targetType = targetType;
-        this.initialPlayAudio = initialPlayAudio;
         this.description = description;
     }
 
     public CardData(string name, Slot slot, Rarity rarity, TargetType targetType)
-        : this(name, slot, rarity, targetType, null, "")
+        : this(name, slot, rarity, targetType, "")
     {
         
     }

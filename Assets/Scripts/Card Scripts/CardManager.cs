@@ -89,62 +89,62 @@ public class CardManager : MonoBehaviour
             // Cleanse Debuffs: "Cleanse"
 
             // Main hand cards
-            new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, null, "Attack for 2, randomly, 3 times"),
+            new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, "Attack for 2"),
             //new CardData("Wand", Slot.MainHand, Rarity.Common, TargetType.None, "Some magic... nothing yet"),
             //new CardData("Staff", Slot.MainHand, Rarity.Common, TargetType.None, "Some magic... nothing yet"),
-            new CardData("Mace", Slot.MainHand, Rarity.Common, TargetType.AOE, null, "Attack for 3, to all"),
-            new CardData("Flail", Slot.MainHand, Rarity.Rare, TargetType.None, null, "Attack for 2, randomly, 3 times"),
-            new CardData("Flaming Arrow", Slot.MainHand, Rarity.Common, TargetType.Unit, null, "Attack for 2. Burn for 2"),
-            new CardData("Spear", Slot.MainHand, Rarity.Rare, TargetType.Unit, null, "Attack for 6"),
-            new CardData("Trident", Slot.MainHand, Rarity.Rare, TargetType.Unit, null, "Attack for 4. Heal for 4"),
-            new CardData("Scythe", Slot.MainHand, Rarity.Rare, TargetType.Unit, null, "Attack for 3. Poison for 3"),
+            new CardData("Mace", Slot.MainHand, Rarity.Common, TargetType.AOE, "Attack for 3, to all"),
+            new CardData("Flail", Slot.MainHand, Rarity.Rare, TargetType.None, "Attack for 2, randomly, 3 times"),
+            new CardData("Flaming Arrow", Slot.MainHand, Rarity.Common, TargetType.Unit, "Attack for 2. Burn for 2"),
+            new CardData("Spear", Slot.MainHand, Rarity.Rare, TargetType.Unit, "Attack for 6"),
+            new CardData("Trident", Slot.MainHand, Rarity.Rare, TargetType.Unit, "Attack for 4. Heal for 4"),
+            new CardData("Scythe", Slot.MainHand, Rarity.Rare, TargetType.Unit, "Attack for 3. Poison for 3"),
 
             // Off hand cards
-            new CardData("Wooden Shield", Slot.OffHand, Rarity.Starter, TargetType.Self, null, "Defend for 1"),
-            new CardData("Buckler", Slot.OffHand, Rarity.Common, TargetType.Self, null, "Defend for 2"),
-            new CardData("Dagger", Slot.OffHand, Rarity.Common, TargetType.Unit, null, "Attack for 1"),
-            new CardData("Quiver", Slot.OffHand, Rarity.Common, TargetType.Unit, null, "Attack for 1, randomly"),
+            new CardData("Wooden Shield", Slot.OffHand, Rarity.Starter, TargetType.Self, "Defend for 1"),
+            new CardData("Buckler", Slot.OffHand, Rarity.Common, TargetType.Self, "Defend for 2"),
+            new CardData("Dagger", Slot.OffHand, Rarity.Common, TargetType.Unit, "Attack for 1"),
+            new CardData("Quiver", Slot.OffHand, Rarity.Common, TargetType.Unit, "Attack for 1, randomly"),
             //new CardData("Scroll", Slot.OffHand, Rarity.Common, TargetType.Self, "Some magic... nothing yet"),
-            new CardData("Spike Shield", Slot.OffHand, Rarity.Common, TargetType.Self, null, "Defend for 3. Spike for 2"),
+            new CardData("Spike Shield", Slot.OffHand, Rarity.Common, TargetType.Self, "Defend for 3. Spike for 2"),
             //new CardData("Tome", Slot.OffHand, Rarity.Common, TargetType.Self, "Some magic... nothing yet"),
-            new CardData("Tower Shield", Slot.OffHand, Rarity.Rare, TargetType.Self, null, "Defend for 5"),
+            new CardData("Tower Shield", Slot.OffHand, Rarity.Rare, TargetType.Self, "Defend for 5"),
             //new CardData("Arcane Focus", Slot.OffHand, Rarity.Rare, TargetType.Self, "Some magic... nothing yet"),
 
             // Ally cards
-            new CardData("Squirrel", Slot.Ally, Rarity.Starter, TargetType.Unit, onSquirrelAudioDelegate, "Attack for 1"),
-            new CardData("Frog", Slot.Ally, Rarity.Common, TargetType.Self, onFrogAudioDelegate, "Heal for 1"),
-            new CardData("Rat", Slot.Ally, Rarity.Common, TargetType.Unit, onRatAudioDelegate, "Poison for 1"),
-            new CardData("Newt", Slot.Ally, Rarity.Common, TargetType.Unit, onNewtAudioDelegate, "Burn for 1"),
+            new CardData("Squirrel", Slot.Ally, Rarity.Starter, TargetType.Unit, "Attack for 1"),
+            new CardData("Frog", Slot.Ally, Rarity.Common, TargetType.Self, "Heal for 1"),
+            new CardData("Rat", Slot.Ally, Rarity.Common, TargetType.Unit, "Poison for 1"),
+            new CardData("Newt", Slot.Ally, Rarity.Common, TargetType.Unit, "Burn for 1"),
             //new CardData("Bunny", Slot.Ally, Rarity.Rare, TargetType.Self, "Some magic... nothing yet"),
-            new CardData("Toad", Slot.Ally, Rarity.Rare, TargetType.Unit, onToadAudioDelegate, "Heal for 1. Poison for 1"),
-            new CardData("Porcupine", Slot.Ally, Rarity.Rare, TargetType.None, onPorcupineAudioDelegate, "Spike for 1"),
-            new CardData("Hamster", Slot.Ally, Rarity.Rare, TargetType.Unit, onHamsterAudioDelegate, "Heal for 3"),   // TODO: change to "Draw 1 card" when drawing is implemented
+            new CardData("Toad", Slot.Ally, Rarity.Rare, TargetType.Unit, "Heal for 1. Poison for 1"),
+            new CardData("Porcupine", Slot.Ally, Rarity.Rare, TargetType.None, "Spike for 1"),
+            new CardData("Hamster", Slot.Ally, Rarity.Rare, TargetType.Unit, "Heal for 3"),   // TODO: change to "Draw 1 card" when drawing is implemented
 
             // Spirit cards
-            new CardData("Earth Spirit", Slot.Spirit, Rarity.Starter, TargetType.Self, null, "Defend for 2"),
-            new CardData("Air Spirit", Slot.Spirit, Rarity.Common, TargetType.None, null, "Attack for 1, randomly, 2 times"),
-            new CardData("Fire Spirit", Slot.Spirit, Rarity.Common, TargetType.Unit, null, "Burn for 2"),
-            new CardData("Water Spirit", Slot.Spirit, Rarity.Common, TargetType.Self, null, "Heal for 2"),
-            new CardData("Light Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, null, "Heal for 4"),
-            new CardData("Dark Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, null, "Poison for 4"),
+            new CardData("Earth Spirit", Slot.Spirit, Rarity.Starter, TargetType.Self, "Defend for 2"),
+            new CardData("Air Spirit", Slot.Spirit, Rarity.Common, TargetType.None, "Attack for 1, randomly, 2 times"),
+            new CardData("Fire Spirit", Slot.Spirit, Rarity.Common, TargetType.Unit, "Burn for 2"),
+            new CardData("Water Spirit", Slot.Spirit, Rarity.Common, TargetType.Self, "Heal for 2"),
+            new CardData("Light Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, "Heal for 4"),
+            new CardData("Dark Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, "Poison for 4"),
 
             // Spell cards
-            new CardData("Arcane Bolt", Slot.Spell, Rarity.Starter, TargetType.None, null, "Attack for 1, randomly"),
-            new CardData("Fireball", Slot.Spell, Rarity.Common, TargetType.Unit, null, "Burn for 3"),
-            new CardData("Life Drain", Slot.Spell, Rarity.Common, TargetType.Unit, null, "Attack for 2. Heal for 2"),
-            new CardData("Lightning Strike", Slot.Spell, Rarity.Rare, TargetType.None, null, "Attack for 4, randomly"),
-            new CardData("Heal", Slot.Spell, Rarity.Rare, TargetType.Self, null, "Heal for 5"),
-            new CardData("Blizzard", Slot.Spell, Rarity.Rare, TargetType.AOE, null, "Attack for 3, to all"),
-            new CardData("Curse", Slot.Spell, Rarity.Rare, TargetType.Unit, null, "Poison for 5"),
+            new CardData("Arcane Bolt", Slot.Spell, Rarity.Starter, TargetType.None, "Attack for 1, randomly"),
+            new CardData("Fireball", Slot.Spell, Rarity.Common, TargetType.Unit, "Burn for 3"),
+            new CardData("Life Drain", Slot.Spell, Rarity.Common, TargetType.Unit, "Attack for 2. Heal for 2"),
+            new CardData("Lightning Strike", Slot.Spell, Rarity.Rare, TargetType.None, "Attack for 4, randomly"),
+            new CardData("Heal", Slot.Spell, Rarity.Rare, TargetType.Self, "Heal for 5"),
+            new CardData("Blizzard", Slot.Spell, Rarity.Rare, TargetType.AOE, "Attack for 3, to all"),
+            new CardData("Curse", Slot.Spell, Rarity.Rare, TargetType.Unit, "Poison for 5"),
 
             // Drink cards
-            new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, null, "Heal for 1"),
-            new CardData("Pouch", Slot.Drink, Rarity.Common, TargetType.Self, null, "Heal for 1"), // TODO: change to "Draw 1 card" when drawing is implemented
-            new CardData("Tankard", Slot.Drink, Rarity.Common, TargetType.None, null, "Heal for 1. Attack for 1, randomly"),
-            new CardData("Goblet", Slot.Drink, Rarity.Common, TargetType.Self, null, "Heal for 2"),
-            new CardData("Potion", Slot.Drink, Rarity.Rare, TargetType.Self, null, "Heal for 4"),
-            new CardData("Flagon", Slot.Drink, Rarity.Rare, TargetType.Unit, null, "Heal for 1. Poison for 2"),
-            new CardData("Chalice", Slot.Drink, Rarity.Rare, TargetType.Self, null, "Heal for 1. Cleanse")
+            new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, "Heal for 1"),
+            new CardData("Pouch", Slot.Drink, Rarity.Common, TargetType.Self, "Heal for 1"), // TODO: change to "Draw 1 card" when drawing is implemented
+            new CardData("Tankard", Slot.Drink, Rarity.Common, TargetType.None, "Heal for 1. Attack for 1, randomly"),
+            new CardData("Goblet", Slot.Drink, Rarity.Common, TargetType.Self, "Heal for 2"),
+            new CardData("Potion", Slot.Drink, Rarity.Rare, TargetType.Self, "Heal for 4"),
+            new CardData("Flagon", Slot.Drink, Rarity.Rare, TargetType.Unit, "Heal for 1. Poison for 2"),
+            new CardData("Chalice", Slot.Drink, Rarity.Rare, TargetType.Self, "Heal for 1. Cleanse")
         };
 
         return cards;
@@ -160,7 +160,6 @@ public class CardManager : MonoBehaviour
     public void Play(CardData cardData, Enemy targetEnemy)
     {
         cardPlayCoroutine = ProcessCard(cardData, targetEnemy);
-        cardData.InitialPlayAudio?.Invoke();
         StartCoroutine(cardPlayCoroutine);
     }
 
