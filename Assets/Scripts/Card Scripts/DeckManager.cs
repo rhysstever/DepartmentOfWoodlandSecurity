@@ -54,7 +54,7 @@ public class DeckManager : MonoBehaviour
         hand.Clear();
         discard.Clear();
         fieldCollider.gameObject.SetActive(true);
-        GameManager.instance.ChangeCombatState(CombatState.CombatPlayerTurn);
+        GameManager.instance.ChangeCombatState(CombatState.PlayerTurn);
     }
 
     public List<CardData> GenerateDeck()

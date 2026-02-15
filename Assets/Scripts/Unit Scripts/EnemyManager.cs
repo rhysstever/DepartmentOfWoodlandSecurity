@@ -108,7 +108,7 @@ public class EnemyManager : MonoBehaviour
             else
             {
                 yield return endOfEnemyTurnsDelayWait;
-                GameManager.instance.ChangeCombatState(CombatState.CombatPlayerTurn);
+                GameManager.instance.ChangeCombatState(CombatState.PlayerTurn);
             }
         }
     }
@@ -116,7 +116,7 @@ public class EnemyManager : MonoBehaviour
     public bool IsWaveOver()
     {
         // Check all enemies and if none have health, the wave is over
-        return enemies.GetComponentsInChildren<Enemy>().Where(enemy => enemy.CurrentLife > 0).Any();
+        return enemies.GetComponentsInChildren<Enemy>().Where(enemy => enemy.CurrentLife > 0).ToList().Count == 0;
     }
 
     public void CheckIfWaveIsOver()
@@ -133,7 +133,7 @@ public class EnemyManager : MonoBehaviour
             else
             {
                 // If there are more waves, change to CombatEnd to reward the player
-                GameManager.instance.ChangeCombatState(CombatState.CombatEnd);
+                GameManager.instance.ChangeCombatState(CombatState.End);
             }
         }
     }
@@ -238,7 +238,7 @@ public class EnemyManager : MonoBehaviour
 
         if(IsWaveOver())
         {
-            GameManager.instance.ChangeCombatState(CombatState.CombatEnd);
+            GameManager.instance.ChangeCombatState(CombatState.End);
         }
         else
         {

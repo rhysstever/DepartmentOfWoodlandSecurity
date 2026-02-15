@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
         closeGameInfoButton.onClick.AddListener(() => HideGameInfo());
         viewDeckButton.onClick.AddListener(() => ShowDeckInfo());
         closeViewDeckButton.onClick.AddListener(() => HideDeckInfo());
-        endTurnButton.onClick.AddListener(() => GameManager.instance.ChangeCombatState(CombatState.CombatEnemyTurn));
+        endTurnButton.onClick.AddListener(() => GameManager.instance.ChangeCombatState(CombatState.EnemyTurn));
         selectCardButton.onClick.AddListener(() => {
             DeckManager.instance.AddSelectedCardToDeck();
             GameManager.instance.GoToNextStage();
@@ -130,17 +130,17 @@ public class UIManager : MonoBehaviour
 
     public void UpdateCombatUI(CombatState combatState)
     {
-        endTurnButton.interactable = combatState == CombatState.CombatPlayerTurn;
+        endTurnButton.interactable = combatState == CombatState.PlayerTurn;
 
         switch(combatState)
         {
-            case CombatState.CombatStart:
+            case CombatState.Start:
                 break;
-            case CombatState.CombatPlayerTurn:
+            case CombatState.PlayerTurn:
                 break;
-            case CombatState.CombatEnemyTurn:
+            case CombatState.EnemyTurn:
                 break;
-            case CombatState.CombatEnd:
+            case CombatState.End:
                 break;
             case CombatState.None:
                 break;

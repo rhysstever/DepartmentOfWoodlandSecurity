@@ -20,10 +20,10 @@ public enum GameState
 public enum CombatState
 {
     None,
-    CombatStart,
-    CombatPlayerTurn,
-    CombatEnemyTurn,
-    CombatEnd
+    Start,
+    PlayerTurn,
+    EnemyTurn,
+    End
 }
 
 public class GameManager : MonoBehaviour
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         switch(newGameState)
         {
             case GameState.Combat:
-                ChangeCombatState(CombatState.CombatStart);
+                ChangeCombatState(CombatState.Start);
                 break;
             case GameState.CardSelection:
                 ChangeCombatState(CombatState.None);
@@ -139,20 +139,20 @@ public class GameManager : MonoBehaviour
 
         switch(newCombatState)
         {
-            case CombatState.CombatStart:
+            case CombatState.Start:
                 EnemyManager.instance.SpawnNextWave();
                 DeckManager.instance.SetupForNewCombat();
                 break;
-            case CombatState.CombatPlayerTurn:
+            case CombatState.PlayerTurn:
                 playerEffectsCoroutine = player.ProcessEffects();
                 StartCoroutine(playerEffectsCoroutine);
                 break;
-            case CombatState.CombatEnemyTurn:
+            case CombatState.EnemyTurn:
                 DeckManager.instance.DiscardHand();
                 enemyEffectsCoroutine = EnemyManager.instance.ProcessEffectsOnEnemies();
                 StartCoroutine(enemyEffectsCoroutine);
                 break;
-            case CombatState.CombatEnd:
+            case CombatState.End:
                 player.PostCombatReset();
                 ChangeGameState(GameState.CardSelection);
                 break;

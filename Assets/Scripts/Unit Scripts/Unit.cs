@@ -208,9 +208,12 @@ public class Unit : MonoBehaviour
             UpdateEffectsUI();
         }
 
-        DeckManager.instance.DealHand();
-        yield return effectTriggerToDamageDelayWait;
-        EnemyManager.instance.GetCurrentEnemies().ForEach(e => e.UpdateNextActionUI());
+        if(GameManager.instance.CurrentCombatState == CombatState.PlayerTurn)
+        {
+            DeckManager.instance.DealHand();
+            yield return effectTriggerToDamageDelayWait;
+            EnemyManager.instance.GetCurrentEnemies().ForEach(e => e.UpdateNextActionUI());
+        }
     }
 
     protected void UpdateLifeUIText()
