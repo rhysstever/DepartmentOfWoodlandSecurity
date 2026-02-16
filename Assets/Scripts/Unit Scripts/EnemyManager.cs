@@ -121,7 +121,7 @@ public class EnemyManager : MonoBehaviour
 
     public void CheckIfWaveIsOver()
     {
-        // Check all enemies in the scene and if none have health, the wave is over
+        // Check all enemies and if none have health, the wave is over
         if(IsWaveOver())
         {
             // If the wave is over check if it is the last wave
@@ -233,7 +233,17 @@ public class EnemyManager : MonoBehaviour
                 enemyEffectsCoroutine = enemies[enemyIndex].ProcessEffects();
                 StartCoroutine(enemyEffectsCoroutine);
             }
+            else
+            {
+                enemies[enemyIndex].Process();
+            }
             enemyIndex++;
+        }
+
+        // Wait for all enemies to process all of their effects
+        while(enemies.Where(e => !e.HasBeenProcessed).Count() > 0)
+        {
+            yield return enemyEffectsDelayWait;
         }
 
         if(IsWaveOver())

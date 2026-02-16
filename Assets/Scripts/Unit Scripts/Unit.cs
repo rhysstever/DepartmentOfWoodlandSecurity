@@ -214,6 +214,12 @@ public class Unit : MonoBehaviour
             yield return effectTriggerToDamageDelayWait;
             EnemyManager.instance.GetCurrentEnemies().ForEach(e => e.UpdateNextActionUI());
         }
+
+        Enemy enemyComp = gameObject.GetComponent<Enemy>();
+        if(enemyComp != null)
+        {
+            enemyComp.Process();
+        }
     }
 
     protected void UpdateLifeUIText()

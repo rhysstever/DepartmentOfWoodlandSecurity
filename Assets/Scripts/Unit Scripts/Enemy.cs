@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -16,9 +17,11 @@ public class Enemy : Unit
 
     private int round;
     private int positionIndex;
+    private bool hasBeenProcessed;
 
     public int Round { get { return round; } }
     public int PositionIndex { get { return positionIndex; } }
+    public bool HasBeenProcessed { get { return hasBeenProcessed; } }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override void Start()
@@ -32,6 +35,7 @@ public class Enemy : Unit
     {
         base.Reset();
         round = 0;
+        hasBeenProcessed = false;
     }
 
     public void SetPositionIndex(int index)
@@ -48,6 +52,12 @@ public class Enemy : Unit
     public void IncrementRound()
     {
         round++;
+        hasBeenProcessed = false;
+    }
+
+    public void Process()
+    {
+        hasBeenProcessed = true;
     }
 
     private string[] ParseRoundAction()
@@ -130,7 +140,6 @@ public class Enemy : Unit
 
         if(currentLife <= 0)
         {
-            EnemyManager.instance.CheckIfWaveIsOver();
             AudioManager.instance.PlayDeathAudio();
             Destroy(gameObject);
         }
