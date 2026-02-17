@@ -119,14 +119,13 @@ public class DeckManager : MonoBehaviour
             deck.RemoveAt(newIndex);
         }
 
-        float cardXOffset = 3.5f;
-        float cardRowXOffset = 4.5f;
-
         // Spawn the all the cards in the scene
         for(int i = 0; i < hand.Count; i++)
         {
-            SpawnCard(playableCardPrefab, hand[i], new Vector2(cardXOffset * i - cardRowXOffset, -5f), cardParentTrans);
+            SpawnCard(playableCardPrefab, hand[i], cardParentTrans);
         }
+
+        CenterHand();
     }
 
     public void ShuffleDiscardPileIntoDeck()
@@ -136,12 +135,9 @@ public class DeckManager : MonoBehaviour
         discard.Clear();
     }
 
-    private void RemoveCardsFromScene()
+    private GameObject SpawnCard(GameObject cardPrefab, CardData cardData, Transform parent)
     {
-        for(int i = cardParentTrans.childCount - 1; i >= 0; i--)
-        {
-            Destroy(cardParentTrans.GetChild(i).gameObject);
-        }
+        return SpawnCard(cardPrefab, cardData, Vector2.zero, parent);
     }
 
     private GameObject SpawnCard(GameObject cardPrefab, CardData cardData, Vector2 position, Transform parent)
@@ -151,6 +147,32 @@ public class DeckManager : MonoBehaviour
         cardObj.SetCardData(cardData);
 
         return newCard;
+    }
+
+    private void CenterHand()
+    {
+        int screenWidth = Screen.width;
+        float edgePaddingPercentage = 0.1f;
+        
+        float handTotalWidth = screenWidth - screenWidth * 2 * edgePaddingPercentage;
+
+        // TODO: change these values based on how many cards 
+        float cardXOffset = 3.5f;
+        float cardRowXOffset = 4.5f;
+        
+        for(int i = 0; i < cardParentTrans.childCount; i++)
+        {
+            Vector2 pos = new Vector2(cardXOffset * i - cardRowXOffset, -5f);
+            cardParentTrans.GetChild(i).position = pos;
+        }
+    }
+
+    private void RemoveCardsFromScene()
+    {
+        for(int i = cardParentTrans.childCount - 1; i >= 0; i--)
+        {
+            Destroy(cardParentTrans.GetChild(i).gameObject);
+        }
     }
 
     public void SetupCardSelection()

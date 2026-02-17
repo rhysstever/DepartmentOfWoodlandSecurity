@@ -90,7 +90,7 @@ public class CardManager : MonoBehaviour
             // Buff: "Buff X by Y"
 
             // Main hand cards
-            new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, "Attack for 2"),
+            new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, "Draw 1 card"),
             new CardData("Wand", Slot.MainHand, Rarity.Common, TargetType.None, "Burn 1"),
             new CardData("Staff", Slot.MainHand, Rarity.Common, TargetType.None, "Burn 2"),
             new CardData("Mace", Slot.MainHand, Rarity.Common, TargetType.AOE, "Attack for 3, to all"),
