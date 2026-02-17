@@ -119,11 +119,9 @@ public class CardManager : MonoBehaviour
             //new CardData("Bunny", Slot.Ally, Rarity.Rare, TargetType.Self, "Some magic... nothing yet"),
             new CardData("Toad", Slot.Ally, Rarity.Rare, TargetType.Unit, "Heal for 1. Poison for 1"),
             new CardData("Porcupine", Slot.Ally, Rarity.Rare, TargetType.None, "Spike for 1"),
-            new CardData("Hamster", Slot.Ally, Rarity.Rare, TargetType.Unit, "Heal for 3"),   // TODO: change to "Draw 1 card" when drawing is implemented
+            new CardData("Hamster", Slot.Ally, Rarity.Rare, TargetType.Unit, "Draw 1 card"),
 
             // Spirit cards
-            new CardData("Earth Spirit", Slot.Spirit, Rarity.Starter, TargetType.Self, "Defend for 2"),
-            new CardData("Air Spirit", Slot.Spirit, Rarity.Common, TargetType.None, "Attack for 1, randomly, 2 times"),
             new CardData("Earth Spirit", Slot.Spirit, Rarity.Starter, TargetType.Self, "Buff Defense by 1"),
             new CardData("Air Spirit", Slot.Spirit, Rarity.Common, TargetType.None, "Buff Attacks by 1"),
             new CardData("Fire Spirit", Slot.Spirit, Rarity.Common, TargetType.Unit, "Buff Burn by 1"),
@@ -142,7 +140,7 @@ public class CardManager : MonoBehaviour
 
             // Drink cards
             new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, "Heal for 1"),
-            new CardData("Pouch", Slot.Drink, Rarity.Common, TargetType.Self, "Heal for 1"), // TODO: change to "Draw 1 card" when drawing is implemented
+            new CardData("Pouch", Slot.Drink, Rarity.Common, TargetType.Self, "Draw 1 card"),
             new CardData("Tankard", Slot.Drink, Rarity.Common, TargetType.None, "Heal for 1. Attack for 1, randomly"),
             new CardData("Goblet", Slot.Drink, Rarity.Common, TargetType.Self, "Heal for 2"),
             new CardData("Potion", Slot.Drink, Rarity.Rare, TargetType.Self, "Heal for 4"),
@@ -211,7 +209,8 @@ public class CardManager : MonoBehaviour
                 GameManager.instance.Player.GiveSpike(amount);
                 break;
             case "Draw":
-                // TODO : Implement Draw action
+                amount = int.Parse(action.Split(" ")[1]);
+                DeckManager.instance.DrawCards(amount);
                 break;
             case "Cleanse":
                 GameManager.instance.Player.Cleanse();
