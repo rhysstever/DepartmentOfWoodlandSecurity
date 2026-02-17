@@ -87,11 +87,12 @@ public class CardManager : MonoBehaviour
             // Gain Spikes: "Spike for X"
             // Draw Cards: "Draw X cards"   // TODO: implement drawing
             // Cleanse Debuffs: "Cleanse"
+            // Buff: "Buff X by Y"
 
             // Main hand cards
             new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, "Attack for 2"),
-            //new CardData("Wand", Slot.MainHand, Rarity.Common, TargetType.None, "Some magic... nothing yet"),
-            //new CardData("Staff", Slot.MainHand, Rarity.Common, TargetType.None, "Some magic... nothing yet"),
+            new CardData("Wand", Slot.MainHand, Rarity.Common, TargetType.None, "Burn 1"),
+            new CardData("Staff", Slot.MainHand, Rarity.Common, TargetType.None, "Burn 2"),
             new CardData("Mace", Slot.MainHand, Rarity.Common, TargetType.AOE, "Attack for 3, to all"),
             new CardData("Flail", Slot.MainHand, Rarity.Rare, TargetType.None, "Attack for 2, randomly, 3 times"),
             new CardData("Flaming Arrow", Slot.MainHand, Rarity.Common, TargetType.Unit, "Attack for 2. Burn for 2"),
@@ -123,10 +124,12 @@ public class CardManager : MonoBehaviour
             // Spirit cards
             new CardData("Earth Spirit", Slot.Spirit, Rarity.Starter, TargetType.Self, "Defend for 2"),
             new CardData("Air Spirit", Slot.Spirit, Rarity.Common, TargetType.None, "Attack for 1, randomly, 2 times"),
-            new CardData("Fire Spirit", Slot.Spirit, Rarity.Common, TargetType.Unit, "Burn for 2"),
-            new CardData("Water Spirit", Slot.Spirit, Rarity.Common, TargetType.Self, "Heal for 2"),
-            new CardData("Light Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, "Heal for 4"),
-            new CardData("Dark Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, "Poison for 4"),
+            new CardData("Earth Spirit", Slot.Spirit, Rarity.Starter, TargetType.Self, "Buff Defense by 1"),
+            new CardData("Air Spirit", Slot.Spirit, Rarity.Common, TargetType.None, "Buff Attacks by 1"),
+            new CardData("Fire Spirit", Slot.Spirit, Rarity.Common, TargetType.Unit, "Buff Burn by 1"),
+            new CardData("Water Spirit", Slot.Spirit, Rarity.Common, TargetType.Self, "Buff Poison by 1"),
+            new CardData("Light Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, "Buff Healing by 1"),
+            new CardData("Dark Spirit", Slot.Spirit, Rarity.Rare, TargetType.Unit, "Buff Spike by 1"),
 
             // Spell cards
             new CardData("Arcane Bolt", Slot.Spell, Rarity.Starter, TargetType.None, "Attack for 1, randomly"),
@@ -213,6 +216,11 @@ public class CardManager : MonoBehaviour
             case "Cleanse":
                 GameManager.instance.Player.Cleanse();
                 break;
+            case "Buff":
+                amount = int.Parse(action.Split(" ")[3]);
+                string type = action.Split(" ")[1];
+                ParseBuff(amount, type);
+                break;
             default:
                 Debug.Log(string.Format("Error! No action found for: {0}", action));
                 break;
@@ -249,6 +257,34 @@ public class CardManager : MonoBehaviour
         StartCoroutine(cardAttackCoroutine);
     }
 
+    private void ParseBuff(int amount, string type)
+    {
+        switch(type)
+        {
+            case "Attacks":
+                GameManager.instance.Player.BuffAttack(amount);
+                break;
+            case "Defense":
+                GameManager.instance.Player.BuffDefense(amount);
+                break;
+            case "Healing":
+                GameManager.instance.Player.BuffHealing(amount);
+                break;
+            case "Burn":
+                GameManager.instance.Player.BuffBurn(amount);
+                break;
+            case "Poison":
+                GameManager.instance.Player.BuffPoison(amount);
+                break;
+            case "Spike":
+                GameManager.instance.Player.BuffSpike(amount);
+                break;
+            default:
+                Debug.Log(string.Format("Error! No buff found for: {0}", type));
+                break;
+        }
+    }
+
     private IEnumerator ProcessCardAttack(int amount, Enemy target, Slot slot, int attackCount, bool isAOE, bool isRandom)
     {
         WaitForSeconds attackDelayWait = new WaitForSeconds(0.75f);
@@ -256,7 +292,10 @@ public class CardManager : MonoBehaviour
         // Apply a small delay before performing each attack
         while(attackIndex < attackCount)
         {
-            yield return attackDelayWait;
+            if(attackIndex > 0)
+            {
+                yield return attackDelayWait;
+            }
             AudioManager.instance.PlaySlotAttackAudio(slot);
             if(isAOE)
             {

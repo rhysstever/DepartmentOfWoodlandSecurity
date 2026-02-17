@@ -15,6 +15,13 @@ public class Player : Unit
         characterSpriteRenderer.sprite = CharacterManager.instance.GetCharacterSprite(CharacterManager.instance.ChosenCharacter);
     }
 
+    public override void Reset()
+    {
+        maxLife = 10;
+        currentGold = 0;
+        base.Reset();
+    }
+
     public override void TakeDamage(int amount, DamageType damageType)
     {
         base.TakeDamage(amount, null, damageType);
@@ -62,12 +69,5 @@ public class Player : Unit
     public void HealFull()
     {
         Heal(maxLife);
-    }
-
-    public override void Reset()
-    {
-        maxLife = 10;
-        currentGold = 0;
-        base.Reset();
     }
 }

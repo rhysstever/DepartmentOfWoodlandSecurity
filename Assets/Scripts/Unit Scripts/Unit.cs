@@ -26,9 +26,8 @@ public class Unit : MonoBehaviour
     protected int maxLife;
 
     // Instantiated in code
-    [SerializeField]
-    protected int currentDefense, currentBurn, currentPoison, currentSpike;
-    protected int currentLife;
+    protected int currentLife, currentDefense, currentBurn, currentPoison, currentSpike, 
+        currentAttackBuff, currentDefenseBuff, currentHealingBuff, currentBurnBuff, currentPoisonBuff, currentSpikeBuff;
     private float effectOffset;
 
     public int CurrentLife { get { return currentLife; } }
@@ -36,6 +35,31 @@ public class Unit : MonoBehaviour
     protected virtual void Start()
     {
         effectOffset = effectTrans2.localPosition.x - effectTrans1.localPosition.x;
+    }
+
+    public virtual void Reset()
+    {
+        currentLife = maxLife;
+        PostCombatReset();
+        UpdateLifeUIText();
+    }
+
+    public void PostCombatReset()
+    {
+        currentDefense = 0;
+        currentBurn = 0;
+        currentPoison = 0;
+        currentSpike = 0;
+
+        currentAttackBuff = 0;
+        currentDefenseBuff = 0;
+        currentHealingBuff = 0;
+        currentBurnBuff = 0;
+        currentPoisonBuff = 0;
+        currentSpikeBuff = 0;
+
+        RemoveEffectsUI();
+        UpdateDefenseUIText();
     }
 
     public virtual void TakeDamage(int amount, DamageType damageType)
@@ -82,7 +106,7 @@ public class Unit : MonoBehaviour
             && attacker != null && currentSpike > 0)
         {
             AudioManager.instance.PlaySpikesAudio();
-            attacker.TakeDamage(currentSpike, DamageType.Spike);
+            attacker.TakeDamage(currentSpike + currentSpikeBuff, DamageType.Spike);
         }
         // Update life UI text
         UpdateLifeUIText();
@@ -96,7 +120,7 @@ public class Unit : MonoBehaviour
         }
 
         AudioManager.instance.PlayHealAudio();
-        currentLife += amount;
+        currentLife += amount + currentHealingBuff;
         if(currentLife > maxLife)
         {
             currentLife = maxLife;
@@ -120,7 +144,7 @@ public class Unit : MonoBehaviour
         }
 
         AudioManager.instance.PlayGiveDefenseAudio();
-        currentDefense += amount;
+        currentDefense += amount + currentDefenseBuff;
         UpdateDefenseUIText();
     }
 
@@ -138,7 +162,7 @@ public class Unit : MonoBehaviour
         }
 
         AudioManager.instance.PlayBurnAudio();
-        currentBurn += amount;
+        currentBurn += amount + currentBurnBuff;
         UpdateEffectsUI();
     }
 
@@ -150,7 +174,7 @@ public class Unit : MonoBehaviour
         }
 
         AudioManager.instance.PlayPoisonAudio();
-        currentPoison += amount;
+        currentPoison += amount + currentPoisonBuff;
         UpdateEffectsUI();
     }
 
@@ -162,7 +186,7 @@ public class Unit : MonoBehaviour
         }
 
         AudioManager.instance.PlaySpikesAudio();
-        currentSpike += amount;
+        currentSpike += amount + currentSpikeBuff;
         UpdateEffectsUI();
     }
 
@@ -171,6 +195,36 @@ public class Unit : MonoBehaviour
         currentPoison = 0;
         currentBurn = 0;
         UpdateEffectsUI();
+    }
+
+    public void BuffAttack(int amount)
+    {
+        currentAttackBuff += amount;
+    }
+
+    public void BuffDefense(int amount)
+    {
+        currentDefenseBuff += amount;
+    }
+
+    public void BuffHealing(int amount)
+    {
+        currentHealingBuff += amount;
+    }
+
+    public void BuffBurn(int amount)
+    {
+        currentBurnBuff += amount;
+    }
+
+    public void BuffPoison(int amount)
+    {
+        currentPoisonBuff += amount;
+    }
+
+    public void BuffSpike(int amount)
+    {
+        currentSpikeBuff += amount;
     }
 
     public bool HasEffectsToProcess()
@@ -278,22 +332,5 @@ public class Unit : MonoBehaviour
         GameObject effectObject = Instantiate(CardManager.instance.EffectUIPrefab, effectsParent.transform);
         effectObject.transform.localPosition = position;
         effectObject.GetComponent<EffectUIObject>().UpdateEffectUIObject(amount, CardManager.instance.GetActionSprite(effectName));
-    }
-
-    public void PostCombatReset()
-    {
-        currentDefense = 0;
-        currentBurn = 0;
-        currentPoison = 0;
-        currentSpike = 0;
-        RemoveEffectsUI();
-        UpdateDefenseUIText();
-    }
-
-    public virtual void Reset()
-    {
-        currentLife = maxLife;
-        PostCombatReset();
-        UpdateLifeUIText();
     }
 }

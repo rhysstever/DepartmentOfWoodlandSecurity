@@ -90,7 +90,7 @@ public class Enemy : Unit
         {
             case "Attack":
                 AudioManager.instance.PlayAttackAudio();
-                GameManager.instance.Player.TakeDamage(actionAmount, this, DamageType.Attack);
+                GameManager.instance.Player.TakeDamage(actionAmount + currentAttackBuff, this, DamageType.Attack);
                 break;
             case "Heal":
                 Heal(actionAmount);
