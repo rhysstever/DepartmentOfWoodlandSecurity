@@ -39,6 +39,12 @@ public class InteractableCardObject : CardObject
         cardCollider.enabled = !UIManager.instance.IsSubMenuShowing;
     }
 
+    public void Move(Vector2 newPos)
+    {
+        transform.localPosition = newPos;
+        savedPos = transform.position;
+    }
+
     private void OnMouseEnter()
     {
         // When the card is first hovered over, if the player is not already targetting,

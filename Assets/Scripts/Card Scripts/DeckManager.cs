@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,17 @@ public class DeckManager : MonoBehaviour
 
     // Set in inspector
     [SerializeField]
-    private Transform cardParentTrans, cardSelectionCardParentTrans, cardSelectionCard1Pos, cardSelectionCard2Pos, cardSelectionCard3Pos;
+    private Transform cardParentTrans, cardHandBoundsTrans, cardSelectionCardParentTrans, cardSelectionCard1Pos, cardSelectionCard2Pos, cardSelectionCard3Pos;
     [SerializeField]
     private Collider2D fieldCollider;
-    [SerializeField]
+    [SerializeField]    // Prefabs
     private GameObject playableCardPrefab, selectableCardPrefab, displayCardPrefab;
 
     // Set in script
     private List<CardData> deck, hand, discard;
     private int currentHandSize;
     private CardData currentCardSelection;
-    private float screenWidth, handBoundsX;
+    private float playableCardPosXMin, playableCardPosXMax;
 
     // Properties
     public Collider2D FieldCollider { get { return fieldCollider; } }
@@ -48,10 +49,9 @@ public class DeckManager : MonoBehaviour
         currentCardSelection = null;
         currentHandSize = 4;
 
-        screenWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
-        // Make the bounds for the hand the middle half of the screen
-        // This starts from negative 1/2 camera size to positive 1/2 camera size
-        handBoundsX = screenWidth * 0.5f;
+        float playableCardWidthHalf = playableCardPrefab.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+        playableCardPosXMin = cardHandBoundsTrans.position.x - cardHandBoundsTrans.localScale.x / 2 + playableCardWidthHalf;
+        playableCardPosXMax = cardHandBoundsTrans.position.x + cardHandBoundsTrans.localScale.x / 2 - playableCardWidthHalf;
     }
 
     public void SetupForNewCombat()
@@ -172,26 +172,43 @@ public class DeckManager : MonoBehaviour
 
     public void RemoveCard(int index)
     {
+        // Hide and Destroy the card game object
+        cardParentTrans.GetChild(index).gameObject.SetActive(false);
         Destroy(cardParentTrans.GetChild(index).gameObject);
+        // Remove the card data from the hand list
         hand.RemoveAt(index);
+
+        // Recenter the remaining cards in hand
         CenterHand();
     }
 
     private void CenterHand()
     {
-        int screenWidth = Screen.width;
-        float edgePaddingPercentage = 0.1f;
-        
-        float handTotalWidth = screenWidth - screenWidth * 2 * edgePaddingPercentage;
-
-        // TODO: change these values based on how many cards 
-        float cardXOffset = 3.5f;
-        float cardRowXOffset = 4.5f;
-        
+        // Get a list of active cards
+        List<InteractableCardObject> cardsToBeCentered = new List<InteractableCardObject>();
         for(int i = 0; i < cardParentTrans.childCount; i++)
         {
-            Vector2 pos = new Vector2(cardXOffset * i - cardRowXOffset, -5f);
-            cardParentTrans.GetChild(i).position = pos;
+            if(cardParentTrans.GetChild(i).gameObject.activeSelf)
+            {
+                cardsToBeCentered.Add(cardParentTrans.GetChild(i).gameObject.GetComponent<InteractableCardObject>());
+            }
+        }
+
+        // Place each active card
+        if(cardsToBeCentered.Count > 1)
+        {
+            // If there is more than 1 card, calculate an offset based on how many total cards there are
+            float cardXOffset = (playableCardPosXMax - playableCardPosXMin) / (cardsToBeCentered.Count - 1);
+
+            for(int i = 0; i < cardsToBeCentered.Count; i++)
+            {
+                cardsToBeCentered[i].Move(new Vector2(playableCardPosXMin + cardXOffset * i, 0f));
+            }
+        }
+        else if(cardsToBeCentered.Count == 1)
+        {
+            // If there is only 1 card, place it in the center
+            cardsToBeCentered[0].Move(Vector2.zero);
         }
     }
 
