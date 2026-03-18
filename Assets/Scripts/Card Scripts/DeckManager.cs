@@ -21,6 +21,7 @@ public class DeckManager : MonoBehaviour
     private List<CardData> deck, hand, discard;
     private int currentHandSize;
     private CardData currentCardSelection;
+    private float screenWidth, handBoundsX;
 
     // Properties
     public Collider2D FieldCollider { get { return fieldCollider; } }
@@ -46,6 +47,11 @@ public class DeckManager : MonoBehaviour
     {
         currentCardSelection = null;
         currentHandSize = 4;
+
+        screenWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
+        // Make the bounds for the hand the middle half of the screen
+        // This starts from negative 1/2 camera size to positive 1/2 camera size
+        handBoundsX = screenWidth * 0.5f;
     }
 
     public void SetupForNewCombat()
@@ -84,7 +90,7 @@ public class DeckManager : MonoBehaviour
 
     public void DiscardHand()
     {
-        RemoveCardsFromScene();
+        RemoveAllCardsFromScene();
 
         // Create a list copy of the cards still in hand,
         // add them to the discard list and clear the hand list
@@ -95,7 +101,7 @@ public class DeckManager : MonoBehaviour
 
     public void DealHand()
     {
-        RemoveCardsFromScene();
+        RemoveAllCardsFromScene();
         DrawCards(currentHandSize);
     }
 
@@ -117,11 +123,8 @@ public class DeckManager : MonoBehaviour
             CardData card = deck[newIndex];
             hand.Add(card);
             deck.RemoveAt(newIndex);
-        }
 
-        // Spawn the all the cards in the scene
-        for(int i = 0; i < hand.Count; i++)
-        {
+            // Spawn the card in the scene
             SpawnCard(playableCardPrefab, hand[i], cardParentTrans);
         }
 
@@ -149,6 +152,31 @@ public class DeckManager : MonoBehaviour
         return newCard;
     }
 
+    public int GetCardIndex(GameObject cardObject)
+    {
+        for(int i = 0; i < cardParentTrans.childCount; i++)
+        {
+            if(cardParentTrans.GetChild(i).gameObject == cardObject)
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public CardData GetCardDataAtIndex(int index)
+    {
+        return hand[index];
+    }
+
+    public void RemoveCard(int index)
+    {
+        Destroy(cardParentTrans.GetChild(index).gameObject);
+        hand.RemoveAt(index);
+        CenterHand();
+    }
+
     private void CenterHand()
     {
         int screenWidth = Screen.width;
@@ -167,7 +195,7 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    private void RemoveCardsFromScene()
+    private void RemoveAllCardsFromScene()
     {
         for(int i = cardParentTrans.childCount - 1; i >= 0; i--)
         {

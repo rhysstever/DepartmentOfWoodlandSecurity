@@ -3,12 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using static AudioManager;
-using static UnityEngine.GraphicsBuffer;
 
 public enum Slot
 {
@@ -90,7 +86,7 @@ public class CardManager : MonoBehaviour
             // Buff: "Buff X by Y"
 
             // Main hand cards
-            new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, "Draw 1 card"),
+            new CardData("Shortsword", Slot.MainHand, Rarity.Starter, TargetType.Unit, "Attack for 1"),
             new CardData("Wand", Slot.MainHand, Rarity.Common, TargetType.None, "Burn 1"),
             new CardData("Staff", Slot.MainHand, Rarity.Common, TargetType.None, "Burn 2"),
             new CardData("Mace", Slot.MainHand, Rarity.Common, TargetType.AOE, "Attack for 3, to all"),
@@ -139,7 +135,7 @@ public class CardManager : MonoBehaviour
             new CardData("Curse", Slot.Spell, Rarity.Rare, TargetType.Unit, "Poison for 5"),
 
             // Drink cards
-            new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, "Heal for 1"),
+            new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, "Draw 1 card"),
             new CardData("Pouch", Slot.Drink, Rarity.Common, TargetType.Self, "Draw 1 card"),
             new CardData("Tankard", Slot.Drink, Rarity.Common, TargetType.None, "Heal for 1. Attack for 1, randomly"),
             new CardData("Goblet", Slot.Drink, Rarity.Common, TargetType.Self, "Heal for 2"),
@@ -153,19 +149,21 @@ public class CardManager : MonoBehaviour
     #endregion Card Creation
 
     #region Card Actions
-    public void Play(CardData cardData)
+    public void Play(int cardIndex)
     {
-        Play(cardData, null);
+        Play(cardIndex, null);
     }
 
-    public void Play(CardData cardData, Enemy targetEnemy)
+    public void Play(int cardIndex, Enemy targetEnemy)
     {
-        cardPlayCoroutine = ProcessCard(cardData, targetEnemy);
+        cardPlayCoroutine = ProcessCard(cardIndex, targetEnemy);
         StartCoroutine(cardPlayCoroutine);
     }
 
-    private IEnumerator ProcessCard(CardData cardData, Enemy targetEnemy)
+    private IEnumerator ProcessCard(int cardIndex, Enemy targetEnemy)
     {
+        CardData cardData = DeckManager.instance.GetCardDataAtIndex(cardIndex);
+
         WaitForSeconds actionDelayWait = new WaitForSeconds(0.5f);
         List<string> actions = cardData.Description.Split(". ").ToList();
         int actionIndex = 0;
@@ -176,6 +174,10 @@ public class CardManager : MonoBehaviour
             PerformCardAction(actions[actionIndex], targetEnemy, cardData.Slot);
             actionIndex++;
         }
+
+        // Remove card and reset targetting
+        DeckManager.instance.RemoveCard(cardIndex);
+        TargettingManager.instance.Reset();
     }
 
     private void PerformCardAction(string action, Enemy target, Slot slot)

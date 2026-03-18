@@ -146,17 +146,16 @@ public class InteractableCardObject : CardObject
 
     private void PlayCard(GameObject target)
     {
-        if(target != null)
+        int index = DeckManager.instance.GetCardIndex(gameObject);
+
+        if(target == null)
         {
-            CardManager.instance.Play(cardData, target.GetComponent<Enemy>());
-            TargettingManager.instance.Reset();
-        }
+            CardManager.instance.Play(index);
+        } 
         else
         {
-            CardManager.instance.Play(cardData);
+            CardManager.instance.Play(index, target.GetComponent<Enemy>());
         }
-
-        Destroy(gameObject);
     }
 
     protected override void Deselect()
