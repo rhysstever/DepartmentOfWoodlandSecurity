@@ -135,7 +135,7 @@ public class CardManager : MonoBehaviour
             new CardData("Curse", Slot.Spell, Rarity.Rare, TargetType.Unit, "Poison for 5"),
 
             // Drink cards
-            new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, "Draw 1 card"),
+            new CardData("Cup", Slot.Drink, Rarity.Starter, TargetType.Self, "Heal for 1"),
             new CardData("Pouch", Slot.Drink, Rarity.Common, TargetType.Self, "Draw 1 card"),
             new CardData("Tankard", Slot.Drink, Rarity.Common, TargetType.None, "Heal for 1. Attack for 1, randomly"),
             new CardData("Goblet", Slot.Drink, Rarity.Common, TargetType.Self, "Heal for 2"),

@@ -184,7 +184,7 @@ public class DeckManager : MonoBehaviour
 
     private void CenterHand()
     {
-        // Get a list of active cards
+        // Get a list of active cards (the list of undestroyed cards cannot be used, as destroying cards takes some time)
         List<InteractableCardObject> cardsToBeCentered = new List<InteractableCardObject>();
         for(int i = 0; i < cardParentTrans.childCount; i++)
         {
@@ -194,15 +194,28 @@ public class DeckManager : MonoBehaviour
             }
         }
 
-        // Place each active card
         if(cardsToBeCentered.Count > 1)
         {
             // If there is more than 1 card, calculate an offset based on how many total cards there are
-            float cardXOffset = (playableCardPosXMax - playableCardPosXMin) / (cardsToBeCentered.Count - 1);
+            float minPos = playableCardPosXMin;
+            float cardPosDiff = playableCardPosXMax - playableCardPosXMin;
 
+            if(cardsToBeCentered.Count < 4)
+            {
+                // If there are few cards in hand, place them closer togther by
+                // increasing the minimum position by a percentage of the position difference
+                // and decreasing the position difference
+                float percentage = 0.2f;
+                minPos = playableCardPosXMin + cardPosDiff * percentage;
+                cardPosDiff *= 1 - (2f * percentage);
+            }
+
+            float offset = cardPosDiff / (cardsToBeCentered.Count - 1);
+
+            // Place each active card
             for(int i = 0; i < cardsToBeCentered.Count; i++)
             {
-                cardsToBeCentered[i].Move(new Vector2(playableCardPosXMin + cardXOffset * i, 0f));
+                cardsToBeCentered[i].Move(new Vector2(minPos + offset * i, 0f));
             }
         }
         else if(cardsToBeCentered.Count == 1)
