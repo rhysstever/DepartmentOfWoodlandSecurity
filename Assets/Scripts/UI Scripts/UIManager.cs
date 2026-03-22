@@ -155,23 +155,11 @@ public class UIManager : MonoBehaviour
 
     public void UpdateCharacterSelectInfo(Character character)
     {
-        int[] deckStructure = CharacterManager.instance.GetCharacterDeckStructure(character);
         characterSelectInfoText.text = string.Format(
-            "{0} Deck\n" +
-            "\n{1} main hands" +
-            "\n{2} off hands" +
-            "\n{3} allies" +
-            "\n{4} spirits" +
-            "\n{5} spells" +
-            "\n{6} drinks",
+            "{0}\n\n{1}",
             character.ToString(),
-            deckStructure[0],
-            deckStructure[1],
-            deckStructure[2],
-            deckStructure[3],
-            deckStructure[4],
-            deckStructure[5]);
-
+            CharacterManager.instance.GetCharacterDeckDescription(character));
+            
         characterSelectInfoText.verticalAlignment = VerticalAlignmentOptions.Top;
     }
 

@@ -96,12 +96,26 @@ public class CharacterManager : MonoBehaviour
     {
         return character switch
         {
-            Character.Badger => new int[] { 4, 4, 3, 3, 2, 2 },
-            Character.Beaver => new int[] { 3, 4, 3, 2, 2, 4 },
-            Character.Fox => new int[] { 3, 2, 2, 4, 4, 3 },
-            Character.Opossum => new int[] { 3, 2, 4, 3, 4, 2 },
-            Character.Otter => new int[] { 4, 2, 2, 4, 3, 3 },
-            Character.Skunk => new int[] { 2, 3, 2, 4, 3, 4 },
+            // Slot order:
+            // Main Hand, Off Hand, Ally, Spirit, Spell, Drink
+            Character.Badger => new int[] { 
+                4, 4, 3, 3, 2, 2 
+            },
+            Character.Beaver => new int[] { 
+                3, 4, 3, 2, 2, 4 
+            },
+            Character.Fox => new int[] { 
+                3, 2, 2, 4, 4, 3 
+            },
+            Character.Opossum => new int[] { 
+                2, 3, 4, 3, 4, 2
+            },
+            Character.Otter => new int[] { 
+                4, 2, 2, 4, 3, 3 
+            },
+            Character.Skunk => new int[] { 
+                2, 3, 4, 2, 3, 4 
+            },
             _ => null,
         };
     }
@@ -117,6 +131,20 @@ public class CharacterManager : MonoBehaviour
             Character.Otter => otterSprite,
             Character.Skunk => skunkSprite,
             _ => null,
+        };
+    }
+
+    public string GetCharacterDeckDescription(Character character)
+    {
+        return character switch
+        {
+            Character.Badger => "Balanced deck with both attacking and defending",
+            Character.Beaver => "Defensive deck that outlasts enemies with blocking and healing.",
+            Character.Fox => "Technical deck with a focus on spells and buffs.",
+            Character.Opossum => "Mixed deck using allies and spells.",
+            Character.Otter => "Aggressive deck with many buffs and attacks.",
+            Character.Skunk => "Intricate deck with allies and healing.",
+            _ => "",
         };
     }
 }

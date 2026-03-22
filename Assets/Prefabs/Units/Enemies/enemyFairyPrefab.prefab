@@ -131,8 +131,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '#'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d109bfc125b5f0143a03651c705d4b8f, type: 2}
-  m_sharedMaterial: {fileID: 1267354866193280412, guid: d109bfc125b5f0143a03651c705d4b8f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 697d8eceb4371c6498a079cc2dc14eb1, type: 2}
+  m_sharedMaterial: {fileID: -6841830904822697613, guid: 697d8eceb4371c6498a079cc2dc14eb1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -267,8 +267,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '#'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d109bfc125b5f0143a03651c705d4b8f, type: 2}
-  m_sharedMaterial: {fileID: 1267354866193280412, guid: d109bfc125b5f0143a03651c705d4b8f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 697d8eceb4371c6498a079cc2dc14eb1, type: 2}
+  m_sharedMaterial: {fileID: -6841830904822697613, guid: 697d8eceb4371c6498a079cc2dc14eb1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -530,15 +530,12 @@ MonoBehaviour:
   effectTrans1: {fileID: 6860954968842074459}
   effectTrans2: {fileID: 2474428185457871075}
   maxLife: 4
-  currentDefense: 0
-  currentBurn: 0
-  currentPoison: 0
-  currentSpike: 0
   nextActionText: {fileID: 6089760840660964530}
   nextActionIcon: {fileID: 7565315210742501715}
   actions:
-  - Defend 3
   - Burn 2
+  - Defend 3
+  - Poison 2
   - Summon 1
   enemySummonPrefab: {fileID: 3525771028941821081}
 --- !u!1 &4277714443026142786
@@ -932,8 +929,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: '##/##'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: d109bfc125b5f0143a03651c705d4b8f, type: 2}
-  m_sharedMaterial: {fileID: 1267354866193280412, guid: d109bfc125b5f0143a03651c705d4b8f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 697d8eceb4371c6498a079cc2dc14eb1, type: 2}
+  m_sharedMaterial: {fileID: -6841830904822697613, guid: 697d8eceb4371c6498a079cc2dc14eb1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -28,6 +28,16 @@ public class Enemy : Unit
     {
         base.Start();
         Reset();
+
+        // For certain enemies, if there are multiple enemies, offset their attacks
+        List<Enemy> currentEnemies = EnemyManager.instance.GetCurrentEnemies();
+        if(currentEnemies.Count > 1
+            && gameObject.name.Contains("Boar")
+            && currentEnemies.IndexOf(this) % 2 == 1)
+        {
+            round = 1;
+        }
+
         UpdateNextActionUI();
     }
 
