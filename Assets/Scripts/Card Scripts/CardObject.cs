@@ -15,6 +15,7 @@ public class CardObject : MonoBehaviour
     private TMP_Text cardNameText, cardSlotText, cardDescriptionText;
 
     // Set at Start
+    [SerializeField]
     protected bool isSelected, isBeingDragged;
 
     // Set in script after card is Instantiated (in DeckManager.SpawnCard())
@@ -24,8 +25,14 @@ public class CardObject : MonoBehaviour
 
     protected virtual void Start()
     {
-        cardSelectionRing.SetActive(false);
-        cardToBePlayedRing.SetActive(false);
+        if(cardSelectionRing != null)
+        {
+            cardSelectionRing.SetActive(false);
+        }
+        if(cardToBePlayedRing != null)
+        {
+            cardToBePlayedRing.SetActive(false);
+        }
         isSelected = false;
         isBeingDragged = false;
 
@@ -129,8 +136,11 @@ public class CardObject : MonoBehaviour
 
     protected virtual void Select()
     {
-        // Show the selection ring of the card
-        cardSelectionRing.SetActive(true);
+        if(cardSelectionRing != null)
+        {
+            // Show the selection ring of the card
+            cardSelectionRing.SetActive(true);
+        }
         // Prioritize the card in the sorting layer
         canvas.sortingOrder = 3;
 
@@ -139,8 +149,11 @@ public class CardObject : MonoBehaviour
 
     protected virtual void Deselect()
     {
-        // Hide the selection ring of the card
-        cardSelectionRing.SetActive(false);
+        if(cardSelectionRing != null)
+        {
+            // Hide the selection ring of the card
+            cardSelectionRing.SetActive(false);
+        }
         // Deprioritize the card in the sorting layer
         canvas.sortingOrder = 2;
 

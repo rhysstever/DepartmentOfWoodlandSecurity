@@ -991,7 +991,7 @@ MonoBehaviour:
   fieldCollider: {fileID: 2025496383}
   playableCardPrefab: {fileID: 1190030000763623090, guid: 21c2d8f417e2f9444a233cca3309e476, type: 3}
   selectableCardPrefab: {fileID: 1190030000763623090, guid: 9643bdd6bca7275438789fb68f0d8019, type: 3}
-  displayCardPrefab: {fileID: 1190030000763623090, guid: 9643bdd6bca7275438789fb68f0d8019, type: 3}
+  displayCardPrefab: {fileID: 1190030000763623090, guid: eb53219a7a302754c94f442c4214d836, type: 3}
 --- !u!114 &231419618
 MonoBehaviour:
   m_ObjectHideFlags: 0
