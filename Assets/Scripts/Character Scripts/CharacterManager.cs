@@ -25,7 +25,7 @@ public class CharacterManager : MonoBehaviour
     [SerializeField]    // Character Sprites
     private Sprite badgerSprite, beaverSprite, foxSprite, opossumSprite, otterSprite, skunkSprite;
     [SerializeField]    // Ally Prefabs
-    private GameObject squirrelPrefab, frogPrefab, ratPrefab, newtPrefab, toadPrefab, porcupinePrefab, hamsterPrefab;  // TODO: add the rest
+    private GameObject squirrelPrefab, frogPrefab, ratPrefab, newtPrefab, toadPrefab, porcupinePrefab, hamsterPrefab;
     [SerializeField]    // Spirit Prefabs
     private GameObject earthSpiritPrefab, airSpiritPrefab, fireSpiritPrefab, waterSpiritPrefab, darkSpiritPrefab, lightSpiritPrefab;  // TODO: add the rest
 

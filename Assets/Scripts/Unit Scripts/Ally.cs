@@ -6,6 +6,7 @@ public class Ally : MonoBehaviour
     private int maxHealth, currentHealth;
 
     public int MaxHealth { get { return maxHealth; } }
+    public int CurrentHealth { get { return currentHealth; } }
 
     private void Start()
     {
