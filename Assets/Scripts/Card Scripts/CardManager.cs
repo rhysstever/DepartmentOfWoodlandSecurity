@@ -103,8 +103,8 @@ public class CardManager : MonoBehaviour
             // Ally cards
             new CardData("Squirrel", Slot.Ally, Rarity.Basic, TargetType.Self, "Summon a Squirrel with 1 health.\nOn its turn: Attack for 1, randomly"),
             new CardData("Frog", Slot.Ally, Rarity.Basic, TargetType.Self, "Summon a Frog with 1 health.\nOn its turn: Heal for 1"),
-            new CardData("Rat", Slot.Ally, Rarity.Basic, TargetType.Self, "Summon a Rat with 1 health.\nOn its turn: Poison for 1"),
-            new CardData("Newt", Slot.Ally, Rarity.Basic, TargetType.Self, "Summon a Newt with 1 health.\nOn its turn: Burn for 1"),
+            new CardData("Rat", Slot.Ally, Rarity.Basic, TargetType.Self, "Summon a Rat with 1 health.\nOn its turn: Poison for 1, randomly"),
+            new CardData("Newt", Slot.Ally, Rarity.Basic, TargetType.Self, "Summon a Newt with 1 health.\nOn its turn: Burn for 1, randomly"),
             //new CardData("Bunny", Slot.Ally, Rarity.Rare, TargetType.Self, "Summon 1. Some magic... nothing yet"),
             new CardData("Toad", Slot.Ally, Rarity.Uncommon, TargetType.Self, "Summon a Toad with 1 health.\nOn its turn: Heal for 1. Poison for 1"),
             new CardData("Porcupine", Slot.Ally, Rarity.Uncommon, TargetType.Self, "Summon a Porcupine with 1 health.\nOn its turn: Spike for 1"),
@@ -142,17 +142,17 @@ public class CardManager : MonoBehaviour
     #endregion Card Creation
 
     #region Card Actions
-    public void Play(int cardIndex)
+    public void Play(GameObject cardObject)
     {
-        Play(cardIndex, null);
+        Play(cardObject, null);
     }
 
-    public void Play(int cardIndex, Enemy targetEnemy)
+    public void Play(GameObject cardObject, Enemy targetEnemy)
     {
-        CardData cardData = DeckManager.instance.GetCardDataAtIndex(cardIndex);
+        CardData cardData = cardObject.GetComponent<CardObject>().CardData;
         cardPlayCoroutine = ProcessCard(cardData, targetEnemy, false);
         StartCoroutine(cardPlayCoroutine);
-        DeckManager.instance.RemoveCard(cardIndex);
+        DeckManager.instance.RemoveCard(cardObject);
     }
 
     public void PlayAllyEffect(CardData cardData)

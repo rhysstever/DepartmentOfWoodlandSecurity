@@ -18,8 +18,8 @@ public class DeckManager : MonoBehaviour
     private GameObject playableCardPrefab, selectableCardPrefab, displayCardPrefab;
 
     // Set in script
-    private List<CardData> deck, hand;
-    private int currentHandSize;
+    private List<CardData> deck;
+    private int numCardsDrawnAtPlayerTurnStart;
     private CardData currentCardSelection;
     private float playableCardPosXMin, playableCardPosXMax;
 
@@ -39,13 +39,12 @@ public class DeckManager : MonoBehaviour
         }
 
         deck = new List<CardData>();
-        hand = new List<CardData>();
     }
 
     void Start()
     {
         currentCardSelection = null;
-        currentHandSize = 4;
+        numCardsDrawnAtPlayerTurnStart = 4;
 
         float playableCardWidthHalf = playableCardPrefab.GetComponent<BoxCollider2D>().bounds.size.x / 2;
         playableCardPosXMin = cardHandBoundsTrans.position.x - cardHandBoundsTrans.localScale.x / 2 + playableCardWidthHalf;
@@ -55,7 +54,7 @@ public class DeckManager : MonoBehaviour
     public void SetupForNewCombat()
     {
         deck = GenerateDeck();
-        hand.Clear();
+        ClearHand();
         fieldCollider.gameObject.SetActive(true);
         GameManager.instance.ChangeCombatState(CombatState.PlayerTurn);
     }
@@ -84,13 +83,11 @@ public class DeckManager : MonoBehaviour
     public void ClearHand()
     {
         RemoveAllCardsFromScene();
-        hand.Clear();
     }
 
     public void DealHand()
     {
-        RemoveAllCardsFromScene();
-        DrawCards(currentHandSize);
+        DrawCards(numCardsDrawnAtPlayerTurnStart);
     }
 
     public void DrawCards(int numberOfCardsToDraw)
@@ -98,15 +95,14 @@ public class DeckManager : MonoBehaviour
         // Add the given number of cards from the deck into the hand
         for(int i = 0; i < numberOfCardsToDraw; i++)
         {
-            // Get the card from the deck, add it to the hand, and remove it from the deck
-            CardData card = GetRandomCardFromDeck();
-            hand.Add(card);
+            // Get the card from the deck
+            CardData cardData = GetRandomCardFromDeck();
 
             // Spawn the card in the scene
-            SpawnCard(playableCardPrefab, hand[i], cardParentTrans);
+            SpawnCard(playableCardPrefab, cardData, cardParentTrans);
         }
 
-        CenterHand();
+        DisplayHand();
     }
 
     private CardData GetRandomCardFromDeck()
@@ -147,6 +143,7 @@ public class DeckManager : MonoBehaviour
     {
         GameObject newCard = Instantiate(cardPrefab, position, Quaternion.identity, parent);
         newCard.GetComponent<CardObject>().SetCardData(cardData);
+        newCard.name = cardData.Name;
 
         return newCard;
     }
@@ -164,11 +161,6 @@ public class DeckManager : MonoBehaviour
         return -1;
     }
 
-    public CardData GetCardDataAtIndex(int index)
-    {
-        return hand[index];
-    }
-
     public CardData GetCardDataBySlot(Slot slot)
     {
         foreach(CardData cardData in deck)
@@ -182,19 +174,17 @@ public class DeckManager : MonoBehaviour
         return null;
     }
 
-    public void RemoveCard(int index)
+    public void RemoveCard(GameObject cardObject)
     {
         // Hide and Destroy the card game object
-        cardParentTrans.GetChild(index).gameObject.SetActive(false);
-        Destroy(cardParentTrans.GetChild(index).gameObject);
-        // Remove the card data from the hand list
-        hand.RemoveAt(index);
+        cardObject.SetActive(false);
+        Destroy(cardObject);
 
         // Recenter the remaining cards in hand
-        CenterHand();
+        DisplayHand();
     }
 
-    private void CenterHand()
+    private void DisplayHand()
     {
         // Get a list of active cards (the list of undestroyed cards cannot be used, as destroying cards takes some time)
         List<InteractableCardObject> cardsToBeCentered = new List<InteractableCardObject>();

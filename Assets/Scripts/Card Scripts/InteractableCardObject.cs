@@ -152,15 +152,13 @@ public class InteractableCardObject : CardObject
 
     private void PlayCard(GameObject target)
     {
-        int index = DeckManager.instance.GetCardIndex(gameObject);
-
         if(target == null)
         {
-            CardManager.instance.Play(index);
+            CardManager.instance.Play(gameObject);
         } 
         else
         {
-            CardManager.instance.Play(index, target.GetComponent<Enemy>());
+            CardManager.instance.Play(gameObject, target.GetComponent<Enemy>());
         }
     }
 
