@@ -15,7 +15,6 @@ public class Enemy : Unit
     [SerializeField]
     private EnemyType enemyType;
 
-    [SerializeField]
     private int round;
     private int positionIndex;
     private bool hasBeenProcessed;

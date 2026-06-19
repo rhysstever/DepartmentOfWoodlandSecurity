@@ -609,7 +609,7 @@ MonoBehaviour:
   nextActionIcon: {fileID: 7565315210742501715}
   nextActionBuffIcon: {fileID: 3248289494563486398}
   enemyType: 3
-  enemySummonPrefab: {fileID: 0}
+  round: 0
 --- !u!1 &4277714443026142786
 GameObject:
   m_ObjectHideFlags: 0
