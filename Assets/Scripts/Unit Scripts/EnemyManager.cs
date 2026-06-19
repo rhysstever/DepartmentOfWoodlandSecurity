@@ -158,41 +158,21 @@ public class EnemyManager : MonoBehaviour
 
         if(GameManager.instance.Player.CurrentLife > 0)
         {
-            if(IsWaveOver())
+            yield return endOfEnemyTurnsDelayWait;
+            // Check if enemies are still alive, if so, move to the Player's turn
+            // If there are no enemies alive, an action needed to have had been processed (like spikes),
+            // thus remaining enemies will be checked once the action has been processed, and the combat will be ended
+            if(!IsWaveOver())
             {
-                CheckIfWaveIsOver();
-            }
-            else
-            {
-                yield return endOfEnemyTurnsDelayWait;
                 GameManager.instance.ChangeCombatState(CombatState.PlayerTurn);
             }
         }
     }
 
-    private bool IsWaveOver()
+    public bool IsWaveOver()
     {
         // Check all enemies and if none have health, the wave is over
         return enemies.GetComponentsInChildren<Enemy>().Where(enemy => enemy.CurrentLife > 0).ToList().Count == 0;
-    }
-
-    public void CheckIfWaveIsOver()
-    {
-        // Check all enemies and if none have health, the wave is over
-        if(IsWaveOver())
-        {
-            // If the wave is over check if it is the last wave
-            if(IsLastWave())
-            {
-                // If it is the last wave, end the game
-                GameManager.instance.ChangeMenuState(MenuState.GameEnd);
-            }
-            else
-            {
-                // If there are more waves, change to CombatEnd to reward the player
-                GameManager.instance.ChangeCombatState(CombatState.End);
-            }
-        }
     }
 
     public void SpawnNextWave()

@@ -165,7 +165,15 @@ public class GameManager : MonoBehaviour
                 break;
             case CombatState.End:
                 player.PostCombatReset();
-                ChangeGameState(GameState.CardSelection);
+
+                if(EnemyManager.instance.IsLastWave())
+                {
+                    ChangeMenuState(MenuState.GameEnd);
+                }
+                else
+                {
+                    ChangeGameState(GameState.CardSelection);
+                }
                 break;
             case CombatState.None:
                 DeckManager.instance.ClearHand();

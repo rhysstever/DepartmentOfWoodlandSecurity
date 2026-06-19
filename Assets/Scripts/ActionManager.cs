@@ -45,7 +45,7 @@ public class ActionManager : MonoBehaviour
             for(int i = 0; i < action.Times; i++)
             {
                 yield return timesDelayWait;
-                // Check if the action show hit all enemies
+                // Check if the action should hit all enemies
                 if((action.TargetType == TargetType.AllFoes && actor is Player)
                     || (action.TargetType == TargetType.AllAllies && actor is Enemy))
                 {
@@ -79,7 +79,10 @@ public class ActionManager : MonoBehaviour
         TargettingManager.instance.Reset();
 
         // Check if combat is over
-        EnemyManager.instance.CheckIfWaveIsOver();
+        if(EnemyManager.instance.IsWaveOver())
+        {
+            GameManager.instance.ChangeCombatState(CombatState.End);
+        }
     }
 
     private Unit UpdateTarget(TargetType actionTargetType, Unit actor, Unit target)

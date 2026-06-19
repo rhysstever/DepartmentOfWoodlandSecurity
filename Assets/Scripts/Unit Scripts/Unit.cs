@@ -71,7 +71,7 @@ public class Unit : MonoBehaviour
         {
             return;
         }
-        target.TakeDamage(amount, damageType);
+        target.TakeDamage(amount, this, damageType);
     }
 
     public virtual void TakeDamage(int amount, DamageType damageType)
@@ -122,7 +122,7 @@ public class Unit : MonoBehaviour
         {
             AudioManager.instance.PlaySpikesAudio();
             attacker.TakeDamage(
-                unitEffects.GetEffectAmount(ActionType.Spike) + unitEffects.GetEffectAmount(ActionType.Spike, true), 
+                unitEffects.GetEffectAmount(ActionType.Spike), 
                 DamageType.Spike);
         }
         // Update life UI text

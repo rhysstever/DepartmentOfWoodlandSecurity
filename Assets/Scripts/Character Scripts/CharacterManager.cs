@@ -203,13 +203,15 @@ public class CharacterManager : MonoBehaviour
 
         if(allyCardToPlay != null)
         {
-            // TODO: Check actor and target 
             ActionManager.instance.PerformActions(ally.GetComponent<Ally>().Actions, ally, null);
             yield return allyActionDelayWait;
             yield return allyActionDelayWait;
         }
 
-        GameManager.instance.ChangeCombatState(CombatState.EnemyTurn);
+        if(!EnemyManager.instance.IsWaveOver())
+        {
+            GameManager.instance.ChangeCombatState(CombatState.EnemyTurn);
+        }
     }
 
     public void ResetSummons()
