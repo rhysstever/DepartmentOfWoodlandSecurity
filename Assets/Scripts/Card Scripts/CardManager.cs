@@ -125,6 +125,9 @@ public class CardManager : MonoBehaviour
             new CardData("Porcupine", Slot.Ally, Rarity.Uncommon, new List<Action> { 
                 new Summon(1, "Porcupine", new List<Action> { new Action(ActionType.Spike, 1, TargetType.Player) }) 
             }),
+            //new CardData("Chipmunk", Slot.Ally, Rarity.Uncommon, new List<Action> {
+            //    new Summon(1, "Chipmunk", new List<Action> { ... })
+            //}),
             new CardData("Hamster", Slot.Ally, Rarity.Uncommon, new List<Action> { 
                 new Summon(1, "Hamster", new List<Action> { new Action(ActionType.Draw, 1, TargetType.None) }) 
             }),
@@ -136,6 +139,8 @@ public class CardManager : MonoBehaviour
             new CardData("Water Spirit", Slot.Spirit, Rarity.Basic, new List<Action> { new Buff(ActionType.Poison, 1) }),
             new CardData("Dark Spirit", Slot.Spirit, Rarity.Uncommon, new List<Action> { new Buff(ActionType.Spike, 1) }),
             new CardData("Light Spirit", Slot.Spirit, Rarity.Uncommon, new List<Action> { new Buff(ActionType.Heal, 1) }),
+            //new CardData("Lava Spirit", Slot.Spirit, Rarity.Rare, new List<Action> { new Buff(...) }),
+            //new CardData("Mud Spirit", Slot.Spirit, Rarity.Rare, new List<Action> { new Buff(...) }),
 
             // Spell cards
             new CardData("Arcane Bolt", Slot.Spell, Rarity.Basic, new List<Action> { new Action(ActionType.Attack, 1, TargetType.RandomFoe) }),
@@ -148,6 +153,8 @@ public class CardManager : MonoBehaviour
             new CardData("Heal", Slot.Spell, Rarity.Uncommon, new List<Action> { new Action(ActionType.Heal, 5, TargetType.Ally) }),
             new CardData("Blizzard", Slot.Spell, Rarity.Uncommon, new List<Action> { new Action(ActionType.Attack, 3, TargetType.AllFoes) }),
             new CardData("Curse", Slot.Spell, Rarity.Uncommon, new List<Action> { new Action(ActionType.Poison, 5, TargetType.Foe) }),
+            //new CardData("Arcane Armor", Slot.Spell, Rarity.Uncommon, new List<Action> { new Action(...) }),
+            //new CardData("Reflect", Slot.Spell, Rarity.Uncommon, new List<Action> { new Action(...) }),
 
             // Drink cards
             new CardData("Cup", Slot.Drink, Rarity.Basic, new List<Action> { new Action(ActionType.Heal, 1, TargetType.Player) }),
@@ -166,6 +173,8 @@ public class CardManager : MonoBehaviour
                 new Action(ActionType.Heal, 1, TargetType.Player),
                 new Action(ActionType.Cleanse, 0, TargetType.Player)
             }),
+            //new CardData("Vial", Slot.Drink, Rarity.Basic, new List<Action> { new Action(...) }),
+            //new CardData("Barrel", Slot.Drink, Rarity.Basic, new List<Action> { new Action(...) }),
         };
 
         return cards;
