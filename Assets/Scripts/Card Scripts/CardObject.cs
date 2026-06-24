@@ -49,7 +49,7 @@ public class CardObject : MonoBehaviour
             Slot.OffHand => "DEF",
             Slot.Ally => "ALY",
             Slot.Spell => "MAG",
-            Slot.Spirit => "SPI",
+            Slot.Spirit => "SPR",
             Slot.Drink => "DRK",
             _ => "???"
         };
