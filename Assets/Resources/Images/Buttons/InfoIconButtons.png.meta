@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ef8938b62453dde498e80089d7ff5b57
+guid: 21c1d518f39a61249bd3949e42f97d0f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5653245720566147053
-    second: CloseIconButtons_0
+      213: 4093482470117643546
+    second: InfoIconButtons_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CloseIconButtons_0
+      name: InfoIconButtons_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,14 +115,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 31858a528f2ab81b0800000000000000
-      internalID: -5653245720566147053
+      spriteID: a1596ad4e98fec830800000000000000
+      internalID: 4093482470117643546
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CloseIconButtons_1
+      name: InfoIconButtons_1
       rect:
         serializedVersion: 2
         x: 16
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef26dc8a4cc15da46b3ae694c6dd0c57
-      internalID: -1247872016
+      spriteID: 27a00a24071c3ac4a8f01b56a483e70c
+      internalID: 582033618
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CloseIconButtons_2
+      name: InfoIconButtons_2
       rect:
         serializedVersion: 2
         x: 32
@@ -159,14 +159,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5ec6277b5eabe048a4a03676c4ff592
-      internalID: 2122187782
+      spriteID: ad697260d6592c0479a0229396743e3b
+      internalID: -1146947203
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CloseIconButtons_3
+      name: InfoIconButtons_3
       rect:
         serializedVersion: 2
         x: 48
@@ -181,8 +181,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 829ca35f84157e343bf41b6bc331fb69
-      internalID: -893898261
+      spriteID: f81f8ce6eaea4164b8183bd6b95d3b76
+      internalID: -1557204991
       vertices: []
       indices: 
       edges: []
@@ -191,7 +191,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 825a49ee4811fdc42ac74aadf954466e
+    spriteID: 098a7f33ce7a3c349afacdba3bb67123
     internalID: 0
     vertices: []
     indices: 
@@ -203,10 +203,10 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      CloseIconButtons_0: -5653245720566147053
-      CloseIconButtons_1: -1247872016
-      CloseIconButtons_2: 2122187782
-      CloseIconButtons_3: -893898261
+      InfoIconButtons_0: 4093482470117643546
+      InfoIconButtons_1: 582033618
+      InfoIconButtons_2: -1146947203
+      InfoIconButtons_3: -1557204991
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
