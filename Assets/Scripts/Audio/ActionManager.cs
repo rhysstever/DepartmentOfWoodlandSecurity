@@ -143,17 +143,9 @@ public class ActionManager : MonoBehaviour
                 target.Heal(amount);
                 break;
             case ActionType.Burn:
-                if(actor is Player && CharacterManager.instance.ChosenCharacter == Character.Skunk)
-                {
-                    amount++;
-                }
                 target.GiveBurn(amount);
                 break;
             case ActionType.Poison:
-                if(actor is Player && CharacterManager.instance.ChosenCharacter == Character.Skunk)
-                {
-                    amount++;
-                }
                 target.GivePoison(amount);
                 break;
             case ActionType.Spike:

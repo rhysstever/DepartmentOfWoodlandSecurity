@@ -52,6 +52,39 @@ public class DeckManager : MonoBehaviour
     {
         deck = GenerateDeck();
         ClearHand();
+
+        // Apply Character-based buffs
+        List<Buff> buffs = new List<Buff>();
+        switch(CharacterManager.instance.ChosenCharacter)
+        {
+            case Character.Badger:
+                buffs.Add(new Buff(ActionType.Attack, 1));
+                break;
+            case Character.Fox:
+                buffs.Add(new Buff(ActionType.MagicalAttack, 1));
+                break;
+            case Character.Opossum:
+                buffs.Add(new Buff(ActionType.Summon, 1));
+                break;
+            case Character.Skunk:
+                buffs.Add(new Buff(ActionType.Burn, 1));
+                buffs.Add(new Buff(ActionType.Poison, 1));
+                break;
+            default:
+                break;
+        }
+
+        if(buffs.Count > 0)
+        {
+            foreach(Buff buff in buffs)
+            {
+                ActionManager.instance.PerformAction(
+                    buff,
+                    GameManager.instance.Player,
+                    GameManager.instance.Player);
+            }
+        }
+
         fieldCollider.gameObject.SetActive(true);
         GameManager.instance.ChangeCombatState(CombatState.PlayerTurn);
     }

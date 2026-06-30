@@ -22,10 +22,6 @@ public class Player : Unit
     public override void DealDamage(int baseAttack, Unit target, DamageType damageType)
     {
         int amount = baseAttack;
-        if(CharacterManager.instance.ChosenCharacter == Character.Badger)
-        {
-            amount++;
-        }
         base.DealDamage(amount, target, damageType);
     }
     

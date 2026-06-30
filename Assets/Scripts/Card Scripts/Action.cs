@@ -73,10 +73,6 @@ public class Action
             case ActionType.Attack:
                 if(unit != null)
                 {
-                    if(unit is Player && CharacterManager.instance.ChosenCharacter == Character.Badger)
-                    {
-                        descriptionAmount++;
-                    }
                     descriptionAmount += unit.UnitEffects.GetEffectAmount(ActionType.Attack, true);
                 }
                 description += string.Format("Attack for {0}", descriptionAmount);
@@ -98,10 +94,6 @@ public class Action
             case ActionType.Heal:
                 if(unit != null)
                 {
-                    if(unit is Player && CharacterManager.instance.ChosenCharacter == Character.Fox)
-                    {
-                        descriptionAmount++;
-                    }
                     descriptionAmount += unit.UnitEffects.GetEffectAmount(ActionType.Heal, true);
                 }
                 description += string.Format("Heal for {0}", descriptionAmount);
@@ -109,10 +101,6 @@ public class Action
             case ActionType.Burn:
                 if(unit != null)
                 {
-                    if(unit is Player && CharacterManager.instance.ChosenCharacter == Character.Skunk)
-                    {
-                        descriptionAmount++;
-                    }
                     descriptionAmount += unit.UnitEffects.GetEffectAmount(ActionType.Burn, true);
                 }
                 description += string.Format("Burn for {0}", descriptionAmount);
@@ -120,10 +108,6 @@ public class Action
             case ActionType.Poison:
                 if(unit != null)
                 {
-                    if(unit is Player && CharacterManager.instance.ChosenCharacter == Character.Skunk)
-                    {
-                        descriptionAmount++;
-                    }
                     descriptionAmount += unit.UnitEffects.GetEffectAmount(ActionType.Poison, true);
                 }
                 description += string.Format("Poison for {0}", descriptionAmount);

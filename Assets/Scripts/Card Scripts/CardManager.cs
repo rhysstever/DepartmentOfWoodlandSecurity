@@ -55,7 +55,7 @@ public class CardManager : MonoBehaviour
         rarityPercentages = new Dictionary<Rarity, float>();
         rarityPercentages.Add(Rarity.Basic, 0.8f);
         rarityPercentages.Add(Rarity.Uncommon, 0.15f);
-        rarityPercentages.Add(Rarity.Uncommon, 0.05f);
+        rarityPercentages.Add(Rarity.Rare, 0.05f);
     }
 
     #region Card Creation

@@ -150,10 +150,6 @@ public class CharacterManager : MonoBehaviour
     public void SummonAlly(Summon summonAction)
     {
         int amount = summonAction.Amount;
-        if(ChosenCharacter == Character.Opossum)
-        {
-            amount++;
-        }
 
         AudioManager.instance.PlayAllyAudio(summonAction.SummonName);
         if(ally != null)
