@@ -55,17 +55,18 @@ public class EnemyManager : MonoBehaviour
     {
         List<EnemyWave> combatRounds = new() {
             // Area 1 enemies
+            new EnemyWave(EnemyType.Boar, 1),   // Tutorial Level
             new EnemyWave(EnemyType.Boar, 2),
             new EnemyWave(EnemyType.Mushroom, 2),
             new EnemyWave(EnemyType.Fairy, 3),
             new EnemyWave(EnemyType.Ent, 1),
             new EnemyWave(EnemyType.Hag, 1, true),
             // Area 2 enemies
-            //new(new List<GameObject>() { oozeEnemyPrefab }),
-            //new(new List<GameObject>() { batSwarmEnemyPrefab, batSwarmEnemyPrefab, batSwarmEnemyPrefab }),
-            //new(new List<GameObject>() { zombieEnemyPrefab, zombieEnemyPrefab }),
-            //new(new List<GameObject>() { shadowEnemyPrefab }),
-            //new(new List<GameObject>() { necromancerEnemyPrefab }),
+            //new EnemyWave(EnemyType.Ooze, 1),
+            //new EnemyWave(EnemyType.Bat, 3),
+            //new EnemyWave(EnemyType.Zombie, #),
+            //new EnemyWave(EnemyType.Shadow, #),
+            //new EnemyWave(EnemyType.Necromancer, #, true),
         };
 
         return combatRounds;
