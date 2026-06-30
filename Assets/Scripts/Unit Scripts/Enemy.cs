@@ -115,7 +115,12 @@ public class Enemy : Unit
     public void UpdateNextActionUI()
     {
         Action nextAction = ParseRoundAction();
-        int nextActionTotalAmount = nextAction.Amount + unitEffects.GetEffectAmount(nextAction.ActionType, true);
+        int nextActionTotalAmount = nextAction.Amount;
+        // If the next action is not a buff, add any existing buff amounts
+        if(nextAction is not Buff)
+        {
+            nextActionTotalAmount += unitEffects.GetEffectAmount(nextAction.ActionType, true);
+        }
         nextActionText.text = nextActionTotalAmount.ToString();
         nextActionIcon.sprite = CardManager.instance.GetActionSprite(nextAction.ActionType);
 
