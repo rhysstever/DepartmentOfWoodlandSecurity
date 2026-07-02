@@ -23,16 +23,18 @@ public class SaveDataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-    private void Start()
-    {
         dirParentPath = "Assets";
         dirName = "Saves";
         saveFileName = "saveData.txt";
         dirFullPath = Path.Combine(dirParentPath, dirName);
         saveFileFullPath = Path.Combine(dirParentPath, dirName, saveFileName);
         hasSaveData = CheckForSaveData();
+    }
+
+    private void Start()
+    {
+
     }
 
     private bool CheckForSaveData()

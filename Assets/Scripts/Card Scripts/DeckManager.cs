@@ -23,6 +23,7 @@ public class DeckManager : MonoBehaviour
     private List<CardData> deck;
     private int numCardsDrawnAtPlayerTurnStart;
     private CardData currentCardSelection;
+    private int roundNum;
 
     // Properties
     public Collider2D FieldCollider { get { return fieldCollider; } }
@@ -52,6 +53,7 @@ public class DeckManager : MonoBehaviour
     {
         deck = GenerateDeck();
         ClearHand();
+        roundNum = 0;   // Incremented at the start of the Player's turn
 
         // Apply Character-based buffs
         List<Buff> buffs = new List<Buff>();
@@ -123,8 +125,70 @@ public class DeckManager : MonoBehaviour
 
     public void DealHand()
     {
-        DrawCards(numCardsDrawnAtPlayerTurnStart);
+        if(TutorialManager.instance.IsInTutorial && roundNum < 3)
+        {
+            DrawTutorialCards();
+            SetTutorialHandInteractability(0);
+        } 
+        else
+        {
+            DrawCards(numCardsDrawnAtPlayerTurnStart);
+            SetTutorialHandInteractability(2);
+        }
+
         UIManager.instance.ShowEndTurnButton();
+    }
+
+    public void DrawTutorialCards()
+    {
+        if(roundNum == 1)
+        {
+            TutorialManager.instance.TryStartTutorial();
+            // For the first round of the tutorial, draw a wooden shield, shortsword, arcane bolt, and another shortsword
+            SpawnCard(playableCardPrefab, GetCardDataBySlot(Slot.OffHand), handSpline.transform);
+            SpawnCard(playableCardPrefab, GetCardDataBySlot(Slot.MainHand), handSpline.transform);
+            SpawnCard(playableCardPrefab, GetCardDataBySlot(Slot.Spell), handSpline.transform);
+            SpawnCard(playableCardPrefab, GetCardDataBySlot(Slot.MainHand), handSpline.transform);
+        }
+        else if(roundNum == 2)
+        {
+            TutorialManager.instance.TryShowStartOfSecondTurnPanel();
+            // For the second round of the tutorial, draw a cup, ally, spirit, and another shortsword
+            SpawnCard(playableCardPrefab, GetCardDataBySlot(Slot.Drink), handSpline.transform);
+            SpawnCard(playableCardPrefab, GetCardDataBySlot(Slot.Ally), handSpline.transform);
+            SpawnCard(playableCardPrefab, GetCardDataBySlot(Slot.Spirit), handSpline.transform);
+            SpawnCard(playableCardPrefab, GetCardDataBySlot(Slot.MainHand), handSpline.transform);
+        }
+
+        DisplayHand();
+    }
+
+    public void SetTutorialHandInteractability(int stage)
+    {
+        if(stage == 0)
+        {
+            // Initially enable no cards
+            for(int i = 0; i < handSpline.transform.childCount; i++)
+            {
+                handSpline.transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
+        else if(stage == 1)
+        {
+            // Partway through the tutorial, only enable the first card in hand
+            for(int i = 0; i < handSpline.transform.childCount; i++)
+            {
+                handSpline.transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>().enabled = i == 0;
+            }
+        }
+        else
+        {
+            // Otherwise, enable all cards
+            for(int i = 0; i < handSpline.transform.childCount; i++)
+            {
+                handSpline.transform.GetChild(i).gameObject.GetComponent<BoxCollider2D>().enabled = true;
+            }
+        }
     }
 
     public void DrawCards(int numberOfCardsToDraw)
@@ -185,17 +249,9 @@ public class DeckManager : MonoBehaviour
         return newCard;
     }
 
-    public int GetCardIndex(GameObject cardObject)
+    public void IncrementRound()
     {
-        for(int i = 0; i < handSpline.transform.childCount; i++)
-        {
-            if(handSpline.transform.GetChild(i).gameObject == cardObject)
-            {
-                return i;
-            }
-        }
-
-        return -1;
+        roundNum++;
     }
 
     public CardData GetCardDataBySlot(Slot slot)

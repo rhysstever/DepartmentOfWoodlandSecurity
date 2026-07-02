@@ -148,6 +148,7 @@ public class GameManager : MonoBehaviour
                 DeckManager.instance.SetupForNewCombat();
                 break;
             case CombatState.PlayerTurn:
+                DeckManager.instance.IncrementRound();
                 playerEffectsCoroutine = player.ProcessEffects();
                 StartCoroutine(playerEffectsCoroutine);
                 break;

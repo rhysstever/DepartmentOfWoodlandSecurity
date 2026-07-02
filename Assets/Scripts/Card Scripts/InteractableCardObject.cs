@@ -36,8 +36,6 @@ public class InteractableCardObject : CardObject
                 TargettingManager.instance.CardTargetting == gameObject &&
                 TargettingManager.instance.Target != null);
         }
-
-        cardCollider.enabled = !UIManager.instance.IsSubMenuShowing;
     }
 
     public void Move(Vector2 newPos)
@@ -48,7 +46,7 @@ public class InteractableCardObject : CardObject
 
     private void OnMouseEnter()
     {
-        // When the card is first hovered over, if the player is not already targetting,
+        // When the card is first hovered over, if the player is not already targetting...
         if(TargettingManager.instance.CardTargetting == null)
         {
             if(cardData.DoesCardTarget)

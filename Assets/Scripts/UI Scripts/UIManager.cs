@@ -61,10 +61,17 @@ public class UIManager : MonoBehaviour
         statsToMainMenuButton.onClick.AddListener(() => GameManager.instance.ChangeMenuState(MenuState.MainMenu));
         gameInfoButton.onClick.AddListener(() => ShowGameInfo());
         closeGameInfoButton.onClick.AddListener(() => HideGameInfo());
-        viewDeckButton.onClick.AddListener(() => ShowDeckInfo());
-        closeViewDeckButton.onClick.AddListener(() => HideDeckInfo());
+        viewDeckButton.onClick.AddListener(() => {
+            ShowDeckInfo();
+            TutorialManager.instance.TryShowDeckInfoPanel();
+        });
+        closeViewDeckButton.onClick.AddListener(() => {
+            HideDeckInfo();
+            TutorialManager.instance.TryShowBackToCombatPanel();
+        });
         endTurnButton.onClick.AddListener(() => {
             endTurnButton.gameObject.SetActive(false);
+            TutorialManager.instance.HideAllTutorialUI();
             GameManager.instance.ChangeCombatState(CombatState.AllyTurn);
         });
         selectCardButton.onClick.AddListener(() => {
@@ -220,6 +227,7 @@ public class UIManager : MonoBehaviour
         gameInfoUIParent.SetActive(true);
         gameInfoButton.gameObject.SetActive(false);
         UpdateButtonInteractability(false);
+        DeckManager.instance.SetTutorialHandInteractability(0);
     }
 
     private void HideGameInfo()
@@ -228,6 +236,7 @@ public class UIManager : MonoBehaviour
         gameInfoUIParent.SetActive(false);
         gameInfoButton.gameObject.SetActive(true);
         UpdateButtonInteractability(true);
+        TutorialManager.instance.SetTutorialHandInteractabilityWithCurrentStage();
     }
 
     private void ShowDeckInfo()
@@ -236,6 +245,7 @@ public class UIManager : MonoBehaviour
         viewDeckUIParent.SetActive(true);
         viewDeckButton.gameObject.SetActive(false);
         UpdateButtonInteractability(false);
+        DeckManager.instance.SetTutorialHandInteractability(0);
 
         DeckManager.instance.DisplayDeckCards(viewDeckCardsUIParent.transform);
     }
@@ -246,6 +256,7 @@ public class UIManager : MonoBehaviour
         viewDeckUIParent.SetActive(false);
         viewDeckButton.gameObject.SetActive(true);
         UpdateButtonInteractability(true);
+        TutorialManager.instance.SetTutorialHandInteractabilityWithCurrentStage();
 
         // Destroy displayed cards
         foreach(Transform child in viewDeckCardsUIParent.transform)

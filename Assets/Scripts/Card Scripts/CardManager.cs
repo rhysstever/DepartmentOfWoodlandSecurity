@@ -240,6 +240,15 @@ public class CardManager : MonoBehaviour
         }
         ActionManager.instance.PerformActions(cardData.Actions, GameManager.instance.Player, targetEnemy);
         DeckManager.instance.RemoveCard(cardObject);
+        
+        if(cardData.Name == "Wooden Shield")
+        {
+            TutorialManager.instance.TryShowPlayedFirstCardPanel();
+        }
+        else if(cardData.Name == "Shortsword")
+        {
+            TutorialManager.instance.TryShowPlayedFirstAttackPanel();
+        }
     }
 
     private List<Sprite> LoadCardArtSprites()
